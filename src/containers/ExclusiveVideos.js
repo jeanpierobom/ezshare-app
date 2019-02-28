@@ -1,12 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { API } from "aws-amplify";
-import PostItemVimeo from '../components/PostItemVimeo'
 import Config from '../components/Config'
-
-
+import Post from '../components/Post'
 import "./Home.css";
 
 export default class ExclusiveVideos extends Component {
@@ -26,7 +20,8 @@ export default class ExclusiveVideos extends Component {
     vimeoClient.request(/*options*/{
         // This is the path for the videos contained within the staff picks
         // channels
-        path: '/channels/staffpicks/videos',
+        //path: '/channels/staffpicks/videos',
+        path: '/channels/1442087/videos',
         // This adds the parameters to request page two, and 10 items per
         // page
         query: {
@@ -51,31 +46,21 @@ export default class ExclusiveVideos extends Component {
               data: items
           })
         }
-       
-        console.log('status code');
-        console.log(status_code);
-        console.log('headers');
-        console.log(headers);
       });
 }
   
-  renderPosts() {
-    return (
-      <div className="posts">
-        <PageHeader>Your Posts</PageHeader>
-        <ListGroup>
-          {!this.state.isLoading && this.renderPostsList(this.state.posts)}
-        </ListGroup>
-      </div>
-    );
-  }
-
   render() {
     return (
-        <div className="card-columns">
+        <div>
+            <h2>Exclusive Videos</h2>
             {this.state.data.map(
                 (item, i) =>
-                <PostItemVimeo key={i} item={item}/>
+                <Post
+                  thumbnail={item.pictures.sizes[5].link}
+                  title={item.name}
+                  content={item.description}
+                  date='date here'
+                />
             )}
         </div>
     )

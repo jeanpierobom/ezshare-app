@@ -1,21 +1,22 @@
-import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { Nav, Navbar, NavItem, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { Auth } from "aws-amplify";
-
+import MainMenu from './components/MainMenu'
 import Routes from "./Routes";
+import LoginModal from './components/LoginModal';
+import Footer from './components/Footer'
 import "./App.css";
+
+import "./containers/Login.css";
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-  
+  constructor(props, context) {
+    super(props, context);
+
     this.state = {
       isAuthenticated: false,
-      isAuthenticating: true
+      isAuthenticating: true,
     };
   }
   
@@ -40,7 +41,7 @@ class App extends Component {
   handleLogout = async event => {
     await Auth.signOut();
     this.userHasAuthenticated(false);
-    this.props.history.push("/login");
+    this.props.history.push("/");
   }
 
   render() {
@@ -52,87 +53,18 @@ class App extends Component {
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        {/* <Navbar fluid collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to="/">Ezshare</Link>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav pullRight>
-              <LinkContainer to="/all">
-                <NavItem>All</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/youtube-videos">
-                <NavItem>YouTube Videos</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/exclusive-videos">
-                <NavItem>Exclusive Videos</NavItem>
-              </LinkContainer>
-              <LinkContainer to="/community-posts">
-                <NavItem>Community Posts</NavItem>
-              </LinkContainer>
-              {this.state.isAuthenticated
-                ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
-                : <Fragment>
-                    <LinkContainer to="/signup">
-                      <NavItem>Signup</NavItem>
-                    </LinkContainer>
-                    <LinkContainer to="/login">
-                      <NavItem>Login</NavItem>
-                    </LinkContainer>
-                  </Fragment>
-              }
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar> */}
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="/">Ezshare</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="/all">All <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/youtube-videos">YouTube Videos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/exclusive-videos">Exclusive Videos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/community-posts">Community Posts</a>
-              </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <ul class="navbar-nav mr-auto">
-            {this.state.isAuthenticated
-                ? <li class="nav-item">
-                    <a class="nav-link" onClick={this.handleLogout}>Logout</a>
-                  </li>
-                : <Fragment>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/signup">Sign Up</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/login">Login</a>
-                    </li>
-                  </Fragment>
-              }
-
-            </ul>
-          </div>
-        </nav>
-
+        <MainMenu
+          isAuthenticated={this.state.isAuthenticated}
+          handleLogout={this.handleLogout}
+          childProps={childProps} 
+        />
         <Routes childProps={childProps} />
+        <Footer />
+        <LoginModal
+          isAuthenticated={this.state.isAuthenticated}
+          userHasAuthenticated={this.userHasAuthenticated}
+          childProps={childProps} 
+        />
       </div>
     );
   }

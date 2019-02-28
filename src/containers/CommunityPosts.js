@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { API, Storage } from "aws-amplify";
-
-import "./Home.css";
+import { API } from "aws-amplify";
+import Post from '../components/Post';
 
 export default class CommunityPosts extends Component {
   constructor(props) {
@@ -17,24 +13,8 @@ export default class CommunityPosts extends Component {
   }
 
   async componentDidMount() {
-    // if (!this.props.isAuthenticated) {
-    //   return;
-    // }
-  
     try {
       const posts = await this.posts();
-      console.log('posts: ' + posts);
-
-      if (posts) {
-        for (let post of posts) {
-          const { attachment } = post;
-          if (attachment) {
-            let attachmentURL = await Storage.vault.get(attachment);
-            post.attachmentURL = attachmentURL;
-          }
-        }
-      }
-
       this.setState({ posts });
     } catch (e) {
       alert(e);
@@ -49,59 +29,27 @@ export default class CommunityPosts extends Component {
   }
 
   renderPostsList(posts) {
-    return [{}].concat(posts).map(
-      (post, i) =>
-        i !== 0
-          ? this.renderPost(post)
-          : this.renderButton()
+    return posts.map(
+      (post, i) => this.renderPost(post)
     );
-  }
-
-  renderButton() {
-    return (
-      <LinkContainer key="new" to="/posts/new">
-        <ListGroupItem>
-          <h4>
-            <b>{"\uFF0B"}</b> Create a new post
-          </h4>
-        </ListGroupItem>
-      </LinkContainer>      
-    )
   }
 
   renderPost(post) {
-    let attachmentURL;
-    const { content, attachment } = post;
-
-
     return (
-      <LinkContainer
-        key={post.postId}
-        to={`/posts/${post.postId}`}
-      >
-        <ListGroupItem header={post.content.trim().split("\n")[0]}>
-          {"Created: " + new Date(post.createdAt).toLocaleString()}
-          image here {post.attachment} <img src={post.attachmentURL}></img>
-        </ListGroupItem>
-      </LinkContainer>      
+      <Post
+        thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
+        title={post.content}
+        content={post.content}
+        date={post.createdAt}
+      />
     )
-  }
-
-  renderPosts() {
-    return (
-      <div className="posts">
-        <PageHeader>Your Posts</PageHeader>
-        <ListGroup>
-          {!this.state.isLoading && this.renderPostsList(this.state.posts)}
-        </ListGroup>
-      </div>
-    );
   }
 
   render() {
     return (
-      <div className="Home">
-        {this.renderPosts()}
+      <div>
+        <h2>Community Posts</h2>
+        {!this.state.isLoading && this.renderPostsList(this.state.posts)}
       </div>
     );
   }

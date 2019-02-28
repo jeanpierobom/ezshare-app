@@ -1,16 +1,26 @@
 @media all and (min-width: 480px) {
     .Signup {
-      padding: 60px 0;
+        padding: 40px 0;
     }
-  
+
     .Signup form {
-      margin: 0 auto;
-      max-width: 320px;
+        margin: 0 auto;
+        max-width: 400px;
     }
-  }
+}
   
-  .Signup form span.help-block {
+.Signup form span.help-block {
     font-size: 14px;
     padding-bottom: 10px;
     color: #999;
-  }
+}
+
+.Signup .buttons {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: .5rem 0;
+}
+
+.Signup .buttons a[href="/login"] {
+  text-align: right;
+}

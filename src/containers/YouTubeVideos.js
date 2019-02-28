@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
+import { ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { API } from "aws-amplify";
-import PostItemYouTube from '../components/PostItemYouTube'
+import Post from '../components/Post'
 
 import "./Home.css";
 
 const apiKey = 'AIzaSyBfYeyN-_gdDYb_vcnZPeXGCHU_KM_OssE'
 const channelId = 'UCQzdMyuz0Lf4zo4uGcEujFw'
+//const channelId = 'UCDEccmAmLulgzeLOm9zDljQ'
 const results = 6
 
 
@@ -72,10 +71,15 @@ export default class YouTubeVideos extends Component {
 
   renderPosts() {
     return (
-      <div className="card-columns card-columns-my">
+      <div>
           {this.state.posts.map(
               (item, i) =>
-              <PostItemYouTube key={i} item={item}/>
+              <Post
+                thumbnail={item.snippet.thumbnails.high.url}
+                title={item.snippet.title}
+                content={item.snippet.description}
+                date='date here'
+              />
           )}
       </div>
     )
@@ -83,8 +87,9 @@ export default class YouTubeVideos extends Component {
 
   render() {
     return (
-      <div className="Home">
-        {this.renderPosts()}
+      <div>
+        <h2>YouTube Videos</h2>
+        {!this.state.isLoading && this.renderPosts()}
       </div>
     );
   }

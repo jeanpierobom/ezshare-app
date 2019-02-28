@@ -1,0 +1,9 @@
+.post {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    margin-bottom: 1rem;
+}
+
+.post-body {
+    padding: 0 1rem;
+}

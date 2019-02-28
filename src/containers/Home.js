@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 
 import "./Home.css";
 
@@ -20,10 +20,18 @@ export default class Home extends Component {
     if (!this.props.isAuthenticated) {
       return;
     }
-  
+
     try {
       const posts = await this.posts();
-      console.log(posts);
+      if (posts) {
+        for (let post of posts) {
+          const { attachment } = post;
+          if (attachment) {
+            let attachmentURL = await Storage.get(attachment);
+            post.attachmentURL = attachmentURL;
+          }
+        }
+      }
       this.setState({ posts });
     } catch (e) {
       alert(e);
@@ -41,13 +49,14 @@ export default class Home extends Component {
       (post, i) =>
         i !== 0
           ? <LinkContainer
-              key={post.postId}
-              to={`/posts/${post.postId}`}
-            >
-              <ListGroupItem header={post.content.trim().split("\n")[0]}>
-                {"Created: " + new Date(post.createdAt).toLocaleString()}
-              </ListGroupItem>
-            </LinkContainer>
+            key={post.postId}
+            to={`/posts/${post.postId}`}
+          >
+            <ListGroupItem header={post.content.trim().split("\n")[0]}>
+              {"Created: " + new Date(post.createdAt).toLocaleString()}
+              image here {post.attachment} <img src={post.attachmentURL}></img>
+            </ListGroupItem>
+          </LinkContainer>
           : <LinkContainer
               key="new"
               to="/posts/new"
