@@ -6,8 +6,8 @@ import Post from '../components/Post'
 import "./Home.css";
 
 const apiKey = 'AIzaSyBfYeyN-_gdDYb_vcnZPeXGCHU_KM_OssE'
-const channelId = 'UCQzdMyuz0Lf4zo4uGcEujFw'
-//const channelId = 'UCDEccmAmLulgzeLOm9zDljQ'
+//const channelId = 'UCQzdMyuz0Lf4zo4uGcEujFw'
+const channelId = 'UCDEccmAmLulgzeLOm9zDljQ'
 const results = 6
 
 
