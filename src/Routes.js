@@ -6,6 +6,7 @@ import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 
 import Home from "./containers/Home";
+import Admin from "./containers/Admin";
 import All from "./containers/All";
 import YouTubeVideos from "./containers/YouTubeVideos";
 import ExclusiveVideos from "./containers/ExclusiveVideos";
@@ -23,7 +24,8 @@ export default ({ childProps }) =>
     <AppliedRoute path="/youtube-videos" exact component={YouTubeVideos} props={childProps} />
     <AppliedRoute path="/exclusive-videos" exact component={ExclusiveVideos} props={childProps} />
     <AppliedRoute path="/community-posts" exact component={CommunityPosts} props={childProps} />
-    <UnauthenticatedRoute path="/login" exact component={Login} props={childProps} />
+    <AppliedRoute path="/admin" exact component={Admin} props={childProps} />
+    {/* <UnauthenticatedRoute path="/login" exact component={Login} props={childProps} /> */}
     <UnauthenticatedRoute path="/signup" exact component={Signup} props={childProps} />
     <AuthenticatedRoute path="/posts/new" exact component={NewPost} props={childProps} />
     <AuthenticatedRoute path="/posts/:id" exact component={Posts} props={childProps} />

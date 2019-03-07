@@ -6,7 +6,7 @@ import { API } from "aws-amplify";
 
 import "./Home.css";
 
-export default class All extends Component {
+export default class Admin extends Component {
   constructor(props) {
     super(props);
 

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Auth } from "aws-amplify";
-import MainMenu from './components/MainMenu'
+// import MainMenu from './components/MainMenu'
+import Header from './components/Header'
 import Routes from "./Routes";
-import LoginModal from './components/LoginModal';
+// import LoginModal from './components/LoginModal';
 import Footer from './components/Footer'
 import "./App.css";
 
@@ -53,18 +54,24 @@ class App extends Component {
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        <MainMenu
+        <Header
           isAuthenticated={this.state.isAuthenticated}
           handleLogout={this.handleLogout}
-          childProps={childProps} 
-        />
-        <Routes childProps={childProps} />
-        <Footer />
-        <LoginModal
-          isAuthenticated={this.state.isAuthenticated}
           userHasAuthenticated={this.userHasAuthenticated}
           childProps={childProps} 
         />
+        {/* <MainMenu
+          isAuthenticated={this.state.isAuthenticated}
+          handleLogout={this.handleLogout}
+          childProps={childProps} 
+        /> */}
+        <Routes childProps={childProps} />
+        <Footer />
+        {/* <LoginModal
+          isAuthenticated={this.state.isAuthenticated}
+          userHasAuthenticated={this.userHasAuthenticated}
+          childProps={childProps} 
+        /> */}
       </div>
     );
   }

@@ -6,6 +6,7 @@ import {
   FormControl,
   ControlLabel
 } from "react-bootstrap";
+import { NavLink } from 'reactstrap'
 import LoaderButton from "../components/LoaderButton";
 import "./Signup.css";
 
@@ -163,7 +164,7 @@ export default class Signup extends Component {
           />
           <div className="buttons">
             <a href="/">Cancel</a>
-            <a href="/login">Already Have an Account</a>
+            <NavLink onClick={this.toggleModal}>Already Have an Account</NavLink>
           </div>
         </form>
       </Fragment>
