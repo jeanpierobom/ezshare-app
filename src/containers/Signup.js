@@ -162,10 +162,6 @@ export default class Signup extends Component {
             text="Signup"
             loadingText="Signing up…"
           />
-          <div className="buttons">
-            <a href="/">Cancel</a>
-            <NavLink onClick={this.toggleModal}>Already Have an Account</NavLink>
-          </div>
         </form>
       </Fragment>
     );

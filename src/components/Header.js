@@ -75,10 +75,12 @@ export default class Header extends React.Component {
               </NavItem>              
               <NavItem>
                 {this.props.isAuthenticated
-                    ? <NavLink onClick={this.props.handleLogout}>Logout</NavLink>
+                    ? <Button color="secondary" outline onClick={this.props.handleLogout}>Logout</Button>
                     : <LoginModal
                         isAuthenticated={this.props.isAuthenticated}
+                        showSignupForm={this.props.showSignupForm}
                         userHasAuthenticated={this.props.userHasAuthenticated}
+                        history={this.props.history}
                       />
                   }
               </NavItem>              

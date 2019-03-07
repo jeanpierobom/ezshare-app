@@ -17,10 +17,6 @@ export default class Home extends Component {
   }
 
   async componentDidMount() {
-    if (!this.props.isAuthenticated) {
-      return;
-    }
-
     try {
       const posts = await this.posts();
       if (posts) {
@@ -70,38 +66,15 @@ export default class Home extends Component {
     );
   }
 
-  renderLander() {
-    return (
-      <div className="lander">
-        <h1>Ezshare</h1>
-        <p>This is the Ezshare app</p>
-        <div>
-          <Link to="/login" className="btn btn-info btn-lg">
-            Login
-          </Link>
-          <Link to="/signup" className="btn btn-success btn-lg">
-            Signup
-          </Link>
-        </div>
-      </div>
-    );
-  }  
-
-  renderPosts() {
-    return (
-      <div className="posts">
-        <PageHeader>Your Posts</PageHeader>
-        <ListGroup>
-          {!this.state.isLoading && this.renderPostsList(this.state.posts)}
-        </ListGroup>
-      </div>
-    );
-  }
-
   render() {
     return (
       <div className="Home">
-        {this.props.isAuthenticated ? this.renderPosts() : this.renderLander()}
+        <div className="posts">
+          <PageHeader>Your Posts</PageHeader>
+          <ListGroup>
+            {!this.state.isLoading && this.renderPostsList(this.state.posts)}
+          </ListGroup>
+        </div>
       </div>
     );
   }
