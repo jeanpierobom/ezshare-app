@@ -26,7 +26,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "aws s3 sync build/ s3://ezshare-app-client --delete",
-    "postdeploy": "aws cloudfront create-invalidation --distribution-id E37OUFU9LDRFJ8 --paths '/*' && aws cloudfront create-invalidation --distribution-id E1P8MV0XL602S7 --paths '/*'"
+    "postdeploy": "aws cloudfront create-invalidation --distribution-id E37OUFU9LDRFJ8 --paths /\\* && aws cloudfront create-invalidation --distribution-id E1P8MV0XL602S7 --paths /\\*"
   },
   "eslintConfig": {
     "extends": "react-app"

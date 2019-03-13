@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { API, Storage } from "aws-amplify";
+import Post from '../components/Post';
 
 import "./Home.css";
 
@@ -19,15 +20,6 @@ export default class Home extends Component {
   async componentDidMount() {
     try {
       const posts = await this.posts();
-      if (posts) {
-        for (let post of posts) {
-          const { attachment } = post;
-          if (attachment) {
-            let attachmentURL = await Storage.get(attachment);
-            post.attachmentURL = attachmentURL;
-          }
-        }
-      }
       this.setState({ posts });
     } catch (e) {
       alert(e);
@@ -37,44 +29,32 @@ export default class Home extends Component {
   }
   
   posts() {
+    console.log('Request Posts!')
     return API.get("community-posts", "/community-posts");
   }
 
   renderPostsList(posts) {
-    return [{}].concat(posts).map(
-      (post, i) =>
-        i !== 0
-          ? <LinkContainer
-            key={post.postId}
-            to={`/posts/${post.postId}`}
-          >
-            <ListGroupItem header={post.content.trim().split("\n")[0]}>
-              {"Created: " + new Date(post.createdAt).toLocaleString()}
-              image here {post.attachment} <img src={post.attachmentURL}></img>
-            </ListGroupItem>
-          </LinkContainer>
-          : <LinkContainer
-              key="new"
-              to="/posts/new"
-            >
-              <ListGroupItem>
-                <h4>
-                  <b>{"\uFF0B"}</b> Create a new post
-                </h4>
-              </ListGroupItem>
-            </LinkContainer>
+    return posts.map(
+      (post, i) => this.renderPost(post)
     );
+  }
+
+  renderPost(post) {
+    return (
+      <Post
+        thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
+        title={post.content}
+        content={post.content}
+        date={post.createdAt}
+      />
+    )
   }
 
   render() {
     return (
-      <div className="Home">
-        <div className="posts">
-          <PageHeader>Your Posts</PageHeader>
-          <ListGroup>
-            {!this.state.isLoading && this.renderPostsList(this.state.posts)}
-          </ListGroup>
-        </div>
+      <div>
+        <h2>Community Posts</h2>
+        {!this.state.isLoading && this.renderPostsList(this.state.posts)}
       </div>
     );
   }
