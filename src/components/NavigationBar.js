@@ -10,11 +10,12 @@ import {
   Nav,
   NavItem,
   NavLink } from 'reactstrap';
-import LoginForm from './LoginForm'
+import { Link } from '@reach/router';
+
 import LoginModal from './LoginModal'
 import Logo from '../images/logo.png'
 
-export default class Header extends React.Component {
+export default class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
 
@@ -50,19 +51,19 @@ export default class Header extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/all">All Posts</NavLink>
+                <Link to="/all">All Posts</Link>
               </NavItem>
               <NavItem>
-                <NavLink href="/youtube-videos">YouTube Videos</NavLink>
+                <Link to="/youtube-videos">YouTube Videos</Link>
               </NavItem>
               <NavItem>
-                <NavLink href="/exclusive-videos">Exclusive Videos</NavLink>
+                <Link to="/exclusive-videos">Exclusive Videos</Link>
               </NavItem>
               <NavItem>
-                <NavLink href="/community-posts">Community Posts</NavLink>
+                <Link to="/community-posts">Community Posts</Link>
               </NavItem>
               <NavItem>
-                <NavLink href="/admin">Admin</NavLink>
+                <Link to="/admin">Admin</Link>
               </NavItem>
               <NavItem>
                 <Form inline>

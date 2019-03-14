@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
 import { API } from "aws-amplify";
 import Post from '../components/Post';
-
-import "./Home.css";
 
 export default class All extends Component {
   constructor(props) {
@@ -41,7 +36,7 @@ export default class All extends Component {
 
   renderPost(post) {
     return (
-      <Post
+      <Post key={Math.random()}
         thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
         title={post.content}
         content={post.content}

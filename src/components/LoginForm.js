@@ -1,8 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Auth } from "aws-amplify";
 import $ from 'jquery';
-import LoaderButton from "./LoaderButton";
 
 class LoginForm extends Component {
 

@@ -12,13 +12,6 @@ import {
   NavLink
 } from 'reactstrap';
 import { Auth } from "aws-amplify"
-import { Transition } from 'react-transition-group';
-import Fade from 'react-reveal/Fade';
-import Zoom from 'react-reveal/Zoom';
-// import posed, { PoseGroup } from "react-pose";
-import LightSpeed from 'react-reveal/LightSpeed';
-
-import LoginForm from './LoginForm';
 import LoaderButton from "./LoaderButton";
 
 // const AnimatedCard = posed.div({

@@ -5,3 +5,58 @@
 .App .navbar-brand {
   font-weight: bold;
 }
+
+.App {
+  min-height: 100vh;
+  margin-top: 0 !important;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-brand {
+  padding: 0;
+}
+
+.logo {
+  width: 170px;
+}
+
+img {
+  width: 100%;
+  max-width: 300px;
+}
+
+.footer {
+  background-color: #01213D;
+  color: white;
+  bottom: 0;
+}
+
+/* unvisited link */
+a:link {
+  color: gray;
+}
+
+/* visited link */
+a:visited {
+  color: gray;
+  text-decoration: underline;
+}
+
+/* mouse over link */
+a:hover {
+  color: gray;
+}
+
+/* selected link */
+a:active {
+  color: gray;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}

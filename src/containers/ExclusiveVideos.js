@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Config from '../components/Config'
 import Post from '../components/Post'
-import "./Home.css";
 
 export default class ExclusiveVideos extends Component {
   constructor(props) {

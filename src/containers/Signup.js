@@ -6,7 +6,6 @@ import {
   FormControl,
   ControlLabel
 } from "react-bootstrap";
-import { NavLink } from 'reactstrap'
 import LoaderButton from "../components/LoaderButton";
 import "./Signup.css";
 

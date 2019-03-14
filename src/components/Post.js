@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import "./Post.css";
 
 class Post extends Component {
     constructor(props) {
@@ -9,18 +8,25 @@ class Post extends Component {
             thumbnail: props.thumbnail,
             title: props.title,
             content: props.content,
+            viewCount: props.viewCount,
+            date: props.date,
+            postLayout: props.postLayout || 'horizontal'
         }
     }
 
-    render() {
-        const { thumbnail, title, content, date } = this.state
+    
+    render() {        
+        const { thumbnail, title, content, date, viewCount, postLayout } = this.state
         return (
-            <div className="post">
-                <img className="card-img-top" src={thumbnail} alt={title} />
-                <div class="post-body">
-                    <h3 className="card-title">Title {title}</h3>
-                    <small className="text-muted">Last updated 3 mins ago date {date}</small>
-                    <p className="card-text">This content is a little bit longer. {content}</p>
+            <div className={`post post-${postLayout}`}>
+                <div>
+                    <img className="card-img-top" src={thumbnail} alt={title} />
+                </div>
+                <div className="post-body">
+                    <h3 className="card-title">{title}</h3>
+                    <small className="text-muted">{date}</small>
+                    <p className="card-text">{content}</p>
+                    <p className="card-text">{viewCount}</p>
                 </div>
             </div>
         )

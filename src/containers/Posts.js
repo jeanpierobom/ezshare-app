@@ -3,7 +3,7 @@ import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { API, Storage } from "aws-amplify";
 import LoaderButton from "../components/LoaderButton";
 import { s3Upload } from "../libs/awsLib";
-import config from "../config";
+import AwsConfig from "../util/AwsConfig";
 import "./Posts.css";
 
 export default class Posts extends Component {
@@ -74,8 +74,8 @@ export default class Posts extends Component {
   
     event.preventDefault();
   
-    if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
-      alert(`Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE/1000000} MB.`);
+    if (this.file && this.file.size > AwsConfig.MAX_ATTACHMENT_SIZE) {
+      alert(`Please pick a file smaller than ${AwsConfig.MAX_ATTACHMENT_SIZE/1000000} MB.`);
       return;
     }
   

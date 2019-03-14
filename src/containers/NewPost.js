@@ -4,7 +4,7 @@ import { API } from "aws-amplify";
 
 import { s3Upload } from "../libs/awsLib";
 import LoaderButton from "../components/LoaderButton";
-import config from "../config";
+import AwsConfig from "../util/AwsConfig";
 import "./NewPost.css";
 
 export default class NewPost extends Component {
@@ -36,8 +36,8 @@ export default class NewPost extends Component {
   handleSubmit = async event => {
     event.preventDefault();
   
-    if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
-      alert(`Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE/1000000} MB.`);
+    if (this.file && this.file.size > AwsConfig.MAX_ATTACHMENT_SIZE) {
+      alert(`Please pick a file smaller than ${AwsConfig.MAX_ATTACHMENT_SIZE/1000000} MB.`);
       return;
     }
   

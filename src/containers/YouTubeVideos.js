@@ -3,8 +3,6 @@ import { ListGroupItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Post from '../components/Post'
 
-import "./Home.css";
-
 const apiKey = 'AIzaSyBfYeyN-_gdDYb_vcnZPeXGCHU_KM_OssE'
 //const channelId = 'UCQzdMyuz0Lf4zo4uGcEujFw'
 const channelId = 'UCDEccmAmLulgzeLOm9zDljQ'

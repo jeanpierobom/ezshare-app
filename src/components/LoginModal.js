@@ -8,9 +8,9 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
-  NavLink
+  ModalFooter
 } from 'reactstrap';
+import { navigate } from "@reach/router"
 import { Auth } from "aws-amplify"
 import LoaderButton from "./LoaderButton";
 
@@ -107,7 +107,7 @@ export default class LoginModal extends React.Component {
       await Auth.confirmSignUp(this.state.email, this.state.confirmationCode);
       await Auth.signIn(this.state.email, this.state.password);  
       this.props.userHasAuthenticated(true);
-      this.props.history.push("/");
+      navigate('/');
     } catch (e) {
       alert(e.message);
       this.setState({ isLoading: false });
@@ -120,7 +120,7 @@ export default class LoginModal extends React.Component {
 
   showSignupForm() {
     this.toggleModal();
-    this.props.history.push("/signup");
+    navigate('/signup');
   }
 
   render() {
@@ -135,14 +135,14 @@ export default class LoginModal extends React.Component {
           <Form onSubmit={this.handleLoginSubmit}>
             <FormGroup>
               <Label for="exampleEmail">Email</Label>
-              <Input type="email" name="email" id="email" placeholder="with a placeholder"
+              <Input type="email" name="email" id="email" placeholder="Email"
                   value={this.state.email}
                   onChange={this.handleChange}
               />
             </FormGroup>
             <FormGroup>
               <Label for="examplePassword">Password</Label>
-              <Input type="password" name="password" id="password" placeholder="password placeholder"
+              <Input type="password" name="password" id="password" placeholder="Password"
                 value={this.state.password}
                 onChange={this.handleChange}
               />
