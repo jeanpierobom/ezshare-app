@@ -3,12 +3,14 @@ import { API } from "aws-amplify";
 import Post from '../components/Post';
 import CommunityPost from '../components/CommunityPost';
 import YouTubeFacade from "../model/YouTubeFacade";
+import VimeoFacade from "../model/VimeoFacade";
 import LogoYouTube from '../images/youtube.png'
 import LogoTwitch from '../images/twitch.png'
 import LogoFacebook from '../images/facebook.png'
 import LogoInstagram from '../images/instagram.jpg'
 import LogoTwitter from '../images/twitter.png'
 import AwsConfig from "../util/AwsConfig";
+import Config from '../components/Config'
 
 export default class Home extends Component {
   constructor(props) {
@@ -21,6 +23,7 @@ export default class Home extends Component {
       isLoadingAll: true,
 
       videoPosts: [],
+      exclusivePosts: [],
       popularPost: null,
       lastYoutubePost: null,
       lastCommunityPost: null,
@@ -48,6 +51,16 @@ export default class Home extends Component {
       alert(e);
     }
 
+    // Retrieve exclusive posts
+    try {
+      await this.getExclusivePosts();
+    } catch (e) {
+      //TODO show notification
+      alert(e);
+    }
+
+    this.setState({ isLoadingExclusive: false });
+    
     // Retrieve community posts
     try {
       const communityPosts = await this.getCommunityPosts();
@@ -72,6 +85,44 @@ export default class Home extends Component {
   
   getCommunityPosts() {
     return API.get("community-posts", "/community-posts");
+  }
+
+  getExclusivePosts() {
+    var Vimeo = require('vimeo').Vimeo;
+    const vimeoClient = new Vimeo(Config.VIMEO_CLIENT_ID, Config.VIMEO_CLIENT_SECRET, Config.VIMEO_ACCESS_TOKEN);
+    
+    vimeoClient.request(/*options*/{
+        // This is the path for the videos contained within the staff picks
+        // channels
+        //path: '/channels/staffpicks/videos',
+        path: '/channels/1442087/videos',
+        // This adds the parameters to request page two, and 10 items per
+        // page
+        query: {
+          page: 1,
+          per_page: 6,
+          fields: 'uri,name,description,duration,created_time,modified_time,pictures'
+        }
+      }, (error, body, status_code, headers) => {
+      if (error) {
+        console.log('error');
+        console.log(error);
+      } else {
+        console.log('body');
+        console.log(body);
+
+        console.log(body.data);
+        const items = []
+        body.data.forEach(item => {
+            items.push(item)
+        })
+        this.setState({
+            exclusivePosts: items
+        })
+
+        this.setState({ isLoadingExclusive: false });
+      }
+    });
   }
 
   renderPostsList(posts) {
@@ -148,6 +199,12 @@ export default class Home extends Component {
     );
   }
 
+  renderExclusivePosts() {
+    return this.state.exclusivePosts.map(
+      (post, i) => this.renderExclusivePost(post)
+    );
+  }
+
   renderVideoPost(videoPost) {
     return (
       (!this.state.popularPost || (this.state.popularPost && this.state.popularPost.title !== videoPost.title)) && 
@@ -161,6 +218,22 @@ export default class Home extends Component {
       />
     )
   }
+
+  renderExclusivePost(exclusivePost) {
+    return (
+      exclusivePost && 
+      <Post key={Math.random()}
+        thumbnail={exclusivePost.pictures.sizes[5].link}
+        title={exclusivePost.name}
+        content={exclusivePost.description}
+        viewCount={-1}
+        date='date here'
+        postLayout="video"
+      />
+    )
+  }
+
+
 
   renderCommunityPosts() {
     return this.state.communityPosts.map(
@@ -216,6 +289,7 @@ export default class Home extends Component {
         <section className="old-posts">
           <section className="old-posts-videos">
             {!this.state.isLoadingYouTube && this.renderVideoPosts()}
+            {/* {!this.state.isLoadingExclusive && this.renderExclusivePosts()} */}
           </section>
 
           <section className="old-posts-community">

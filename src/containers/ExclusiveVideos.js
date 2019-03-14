@@ -29,24 +29,24 @@ export default class ExclusiveVideos extends Component {
           fields: 'uri,name,description,duration,created_time,modified_time,pictures'
         }
       }, (error, body, status_code, headers) => {
-        if (error) {
-          console.log('error');
-          console.log(error);
-        } else {
-          console.log('body');
-          console.log(body);
+      if (error) {
+        console.log('error');
+        console.log(error);
+      } else {
+        console.log('body');
+        console.log(body);
 
-          console.log(body.data);
-          const items = []
-          body.data.forEach(item => {
-              items.push(item)
-          })
-          this.setState({
-              data: items
-          })
-        }
-      });
-}
+        console.log(body.data);
+        const items = []
+        body.data.forEach(item => {
+            items.push(item)
+        })
+        this.setState({
+            data: items
+        })
+      }
+    });
+  }
   
   render() {
     return (
