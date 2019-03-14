@@ -6,6 +6,7 @@ class YouTubeFacade {
 
   constructor() {
     this.popularPost = null;
+    this.lastPost = null;
     this.posts = [];
   }
 
@@ -24,17 +25,44 @@ class YouTubeFacade {
     const videosUrl = await YouTubeSetup.videosUrl(youtubeIdString);
     const jsonVideos = await HttpClient.getJson(videosUrl);
 
+    // Identify the popular post
+    let maxViewCount = 0;
+
     // Iterate over all videos
     const posts = [];
     await jsonVideos.items.forEach(post => {
-      const post4 = new YouTubePostItem(
+      const newPost = new YouTubePostItem(
         post.snippet.title,
         post.snippet.thumbnails.high.url,
         post.snippet.description,
         post.statistics.viewCount,
         post.snippet.publishedAt
       );
-      posts.push(post4);
+      posts.push(newPost);
+
+      // Identify the popular post
+      try {
+        console.log('newPost.viewCount: ' + newPost.viewCount);
+        let viewCount = parseInt(newPost.viewCount);
+
+        if (!this.popularPost) {
+          this.popularPost = newPost;
+        }
+
+        if (viewCount && viewCount > maxViewCount) {
+          maxViewCount = viewCount;
+          this.popularPost = newPost;
+        }
+      } catch (err) {
+        //TODO error to identify the popular post
+        console.log('//TODO error to identify the popular post');
+      }
+
+      // Store the last post
+      if (!this.lastPost) {
+        this.lastPost = newPost;
+      }
+
     });
     return posts;
   }
@@ -46,19 +74,11 @@ class YouTubeFacade {
   }
 
   getPopularPost() {
-    if (this.posts == null) {
-      return null;
-    }
-
-    let max = 0;
-    this.posts.forEach(post => {
-      if (post.viewCount && post.viewCount >= max) {
-        max = post.viewCount;
-        this.popularPost = post;
-      }
-    });
-
     return this.popularPost;
+  }
+
+  getLastPost() {
+    return this.lastPost;
   }
 
 }

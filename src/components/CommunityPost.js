@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Post extends Component {
+class CommunityPost extends Component {
     constructor(props) {
         super(props)
 
@@ -10,27 +10,26 @@ class Post extends Component {
             content: props.content,
             viewCount: props.viewCount,
             date: props.date,
-            postLayout: props.postLayout || 'horizontal',
+            postLayout: props.postLayout || 'horizontal'
         }
     }
 
     
     render() {        
-        const { thumbnail, title, content, date, viewCount, postLayout} = this.state
+        const { thumbnail, title, date, viewCount, postLayout} = this.state
         return (
-            <div className={`post post-${postLayout}`}>
+            <div className={`post community-post post-${postLayout}`}>
                 <div>
                     <img className="img-post" src={thumbnail} alt={title} />
                 </div>
                 <div className="post-body">
-                    <h3 className="card-title">{title}</h3>
+                    <small className="text-muted">Community</small>
                     <small className="text-muted">{date}</small>
-                    <p className="card-text">{content}</p>
-                    <p className="card-text">{viewCount}</p>
+                    <small className="text-muted">{viewCount}</small>
                 </div>
             </div>
         )
     }
 }
 
-export default Post
+export default CommunityPost

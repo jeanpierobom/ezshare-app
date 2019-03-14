@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { API } from "aws-amplify";
 import Post from '../components/Post';
+import CommunityPost from '../components/CommunityPost';
 import YouTubeFacade from "../model/YouTubeFacade";
 import LogoYouTube from '../images/youtube.png'
 import LogoTwitch from '../images/twitch.png'
 import LogoFacebook from '../images/facebook.png'
 import LogoInstagram from '../images/instagram.jpg'
 import LogoTwitter from '../images/twitter.png'
+import AwsConfig from "../util/AwsConfig";
 
 export default class Home extends Component {
   constructor(props) {
@@ -14,10 +16,16 @@ export default class Home extends Component {
 
     this.state = {
       isLoadingYouTube: true,
-      youtubePosts: [],
-      popularPost: null,
+      isLoadingExclusive: true,
+      isLoadingCommunity: true,
+      isLoadingAll: true,
 
-      posts: [],
+      videoPosts: [],
+      popularPost: null,
+      lastYoutubePost: null,
+      lastCommunityPost: null,
+
+      communityPosts: [],
       youtubeIdList: [],
       youtubeVideos: []
     };
@@ -25,23 +33,44 @@ export default class Home extends Component {
 
   async componentDidMount() {
     try {
-      const youtubePosts = await YouTubeFacade.getPosts();
-      this.setState({ youtubePosts });
-
-      const posts = await this.posts();
-      this.setState({ posts });
+      const videoPosts = await YouTubeFacade.getPosts();
+      this.setState({ videoPosts });
 
       const popularPost = await YouTubeFacade.getPopularPost();
       this.setState({ popularPost });
+
+      const lastYoutubePost = await YouTubeFacade.getLastPost();
+      this.setState({ lastYoutubePost });
+
+      this.setState({ isLoadingYouTube: false });
     } catch (e) {
+      //TODO show notification
       alert(e);
     }
-  
-    this.setState({ isLoadingYouTube: false });
+
+    // Retrieve community posts
+    try {
+      const communityPosts = await this.getCommunityPosts();
+      this.setState({ communityPosts });
+    } catch (e) {
+      //TODO show notification
+      alert(e);
+    }
+
+    // Retrieve the last community post
+    try {
+      const lastCommunityPost = await this.state.communityPosts[0];
+      this.setState({ lastCommunityPost });
+    } catch (e) {
+      //TODO show notification
+      alert(e);
+    }
+
+    this.setState({ isLoadingCommunity: false });
+    this.setState({ isLoadingAll: false });
   }
   
-  posts() {
-    console.log('Request Posts!')
+  getCommunityPosts() {
     return API.get("community-posts", "/community-posts");
   }
 
@@ -54,7 +83,7 @@ export default class Home extends Component {
   renderPost(post) {
     return (
       <Post key={Math.random()}
-        thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
+        thumbnail={AwsConfig.s3.BUCKET_URL + post.attachment}
         title={post.content}
         content={post.content}
         date={post.createdAt}
@@ -64,24 +93,26 @@ export default class Home extends Component {
 
   renderLastPosts() {
     const post = this.state.popularPost;
+    const lastYoutubePost = this.state.lastYoutubePost;
+    const lastCommunityPost = this.state.lastCommunityPost;
     return (
-      post &&
+      lastYoutubePost && lastCommunityPost && post &&
       <Fragment>
         <Post key={Math.random()}
-          thumbnail={post.thumbnail}
-          title={post.title}
-          content={post.description}
-          viewCount={post.viewCount}
-          date={post.date}
+          thumbnail={lastYoutubePost.thumbnail}
+          title={lastYoutubePost.title}
+          content={lastYoutubePost.description}
+          viewCount={lastYoutubePost.viewCount}
+          date={lastYoutubePost.date}
           postLayout="vertical"
         />
 
         <Post key={Math.random()}
-          thumbnail={post.thumbnail}
-          title={post.title}
-          content={post.description}
-          viewCount={post.viewCount}
-          date={post.date}
+          thumbnail={AwsConfig.s3.BUCKET_URL + lastCommunityPost.attachment}
+          title={lastCommunityPost.content}
+          content={lastCommunityPost.content}
+          date={lastCommunityPost.createdAt}
+          viewCount={-1}
           postLayout="vertical"
         />
 
@@ -111,21 +142,40 @@ export default class Home extends Component {
     )
   }
 
-  renderYouTubePosts() {
-    return this.state.youtubePosts.map(
-      (post, i) => this.renderYouTubePost(post)
+  renderVideoPosts() {
+    return this.state.videoPosts.map(
+      (post, i) => this.renderVideoPost(post)
     );
   }
 
-  renderYouTubePost(youTubePost) {
+  renderVideoPost(videoPost) {
     return (
-      this.state.popularPost.title !== youTubePost.title && 
+      (!this.state.popularPost || (this.state.popularPost && this.state.popularPost.title !== videoPost.title)) && 
       <Post key={Math.random()}
-        thumbnail={youTubePost.thumbnail}
-        title={youTubePost.title}
-        content={youTubePost.description}
-        viewCount={youTubePost.viewCount}
-        date={youTubePost.date}
+        thumbnail={videoPost.thumbnail}
+        title={videoPost.title}
+        content={videoPost.description}
+        viewCount={videoPost.viewCount}
+        date={videoPost.date}
+        postLayout="video"
+      />
+    )
+  }
+
+  renderCommunityPosts() {
+    return this.state.communityPosts.map(
+      (post, i) => this.renderCommunityPost(post)
+    );
+  }
+
+  renderCommunityPost(communityPost) {
+    return (      
+      <CommunityPost
+        thumbnail={AwsConfig.s3.BUCKET_URL + communityPost.attachment}
+        title={communityPost.content}
+        content={communityPost.content}
+        date={communityPost.createdAt}
+        postLayout="vertical"
       />
     )
   }
@@ -138,40 +188,39 @@ export default class Home extends Component {
             {!this.state.isLoadingYouTube && this.renderPopularPost()}
           </section>
           <section className="social">
-            <div class="social-box">
+            <div className="social-box">
               <img src={LogoYouTube} className="logo-social" alt="YouTube" />
-              <span class="social-button">SUBSCRIBE 322K</span>
+              <span className="social-button">SUBSCRIBE 322K</span>
             </div>
-            <div class="social-box">
+            <div className="social-box">
               <img src={LogoTwitch} className="logo-social" alt="Twitch" />
-              <span class="social-button">WATCH 299K</span>
+              <span className="social-button">WATCH 299K</span>
             </div>
-            <div class="social-box">
+            <div className="social-box">
               <img src={LogoFacebook} className="logo-social" alt="Facebook" />
-              <span class="social-button">LIKE 59K</span>
+              <span className="social-button">LIKE 59K</span>
             </div>
-            <div class="social-box">
+            <div className="social-box">
               <img src={LogoInstagram} className="logo-social" alt="Instagram" />
-              <span class="social-button">FOLLOW 156K</span>
+              <span className="social-button">FOLLOW 156K</span>
             </div>
-            <div class="social-box">
+            <div className="social-box">
               <img src={LogoTwitter} className="logo-social" alt="Twitter" />
-              <span class="social-button">FOLLOW 81K</span>
+              <span className="social-button">FOLLOW 81K</span>
             </div>
           </section>
         </section>
-        <section className="last-posts ">
-          {!this.state.isLoadingYouTube && this.renderLastPosts()}        
+        <section className="last-posts">
+          {!this.state.isLoadingAll && this.renderLastPosts()}        
         </section>
-        <section className="old-posts bg-danger">
-          <h2>YouTube Posts TEST</h2>
-          {!this.state.isLoadingYouTube && this.renderYouTubePosts()}
-        </section>
-        <section className="last-posts bg-danger">Exclusive Posts TEST</section>
-        <section className="older-posts bg-info">Older Posts</section>
-        <section className="community-posts bg-light">
-          <h2>Community Posts</h2>
-          {/* {!this.state.isLoadingYouTube && this.renderPostsList(this.state.posts)} */}
+        <section className="old-posts">
+          <section className="old-posts-videos">
+            {!this.state.isLoadingYouTube && this.renderVideoPosts()}
+          </section>
+
+          <section className="old-posts-community">
+            {!this.state.isLoadingCommunity && this.renderCommunityPosts()}
+          </section>
         </section>
       </div>
     );

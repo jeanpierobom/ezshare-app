@@ -2,7 +2,8 @@ export default {
   MAX_ATTACHMENT_SIZE: 5000000,
   s3: {
     REGION: "us-east-1",
-    BUCKET: "ezshare-posts-uploads"
+    BUCKET: "ezshare-posts-uploads",
+    BUCKET_URL: "https://s3.amazonaws.com/ezshare-posts-uploads/public/"
   },
   apiGateway: {
     REGION: "us-east-1",

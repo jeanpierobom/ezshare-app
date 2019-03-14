@@ -75,6 +75,8 @@ img {
 
 .social {
   display: flex;
+  margin-bottom: 1rem;
+  min-width: 210px;
 }
 
 img.logo-social {
@@ -83,7 +85,9 @@ img.logo-social {
 
 .social-box {
   flex-grow: 1;
+  flex-shrink: 0;
   text-align: center;
+  margin-bottom: 5px;
 }
 
 .social-button {
@@ -95,6 +99,10 @@ img.logo-social {
     flex-direction: column;
     margin: 0 2rem; 
     flex-basis: 250px;
+  }
+
+  .social-box {
+    flex-grow: 0;
   }
 
   .social-button {
@@ -110,6 +118,8 @@ img.logo-social {
 .last-posts {
   background-color: #FFDF00;
   display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 .last-posts .post {
@@ -117,9 +127,9 @@ img.logo-social {
 }
 
 .post {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  margin-bottom: 1rem;
 }
 
 .post-horizontal {
@@ -134,4 +144,49 @@ img.logo-social {
 
 .post-body {
     padding: 0 1rem;
+}
+
+.old-posts {
+  display: flex;
+  flex-direction: column;
+}
+
+.old-posts-videos {
+  flex-grow: 1;
+}
+
+.old-posts-community {
+  flex-grow: 0;
+}
+
+.img-post {
+  width: 100%;
+}
+
+.post-video {
+  display: flex;
+  flex-direction: column;
+}
+
+.community-post {
+  margin: 0 1rem;
+}
+
+@media (min-width: 768px) {
+  .last-posts {
+    flex-direction: row;
+  }
+  
+  .old-posts {
+    flex-direction: row;
+  }
+
+  .old-posts-community {
+    max-width: 300px;
+  }
+
+  .post-video {
+    flex-direction: row;
+  }
+  
 }
