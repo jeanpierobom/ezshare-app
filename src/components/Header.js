@@ -65,6 +65,9 @@ export default class Header extends React.Component {
                 <NavLink href="/admin">Admin</NavLink>
               </NavItem>
               <NavItem>
+                <NavLink href="/popover">Popover</NavLink>
+              </NavItem>
+              <NavItem>
                 <Form inline>
                   <Input type="search" className="mr-3" placeholder="Search" />
                 </Form>

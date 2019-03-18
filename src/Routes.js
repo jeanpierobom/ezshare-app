@@ -17,6 +17,7 @@ import NotFound from "./containers/NotFound";
 import Signup from "./containers/Signup";
 import NewPost from "./containers/NewPost";
 import Posts from "./containers/Posts";
+import PopoverExampleMulti from "./containers/PopoverExampleMulti";
 
 const RouteContainer = posed.div({
   enter: { opacity: 1, delay: 300, beforeChildren: true },
@@ -33,6 +34,7 @@ export default ({ childProps }) =>
       <AppliedRoute path="/exclusive-videos" exact component={ExclusiveVideos} props={childProps} />
       <AppliedRoute path="/community-posts" exact component={CommunityPosts} props={childProps} />
       <AppliedRoute path="/admin" exact component={Admin} props={childProps} />
+      <AppliedRoute path="/popover" exact component={PopoverExampleMulti} props={childProps} />
       {/* <UnauthenticatedRoute path="/login" exact component={Login} props={childProps} /> */}
       <UnauthenticatedRoute path="/signup" exact component={Signup} props={childProps} />
       <AuthenticatedRoute path="/posts/new" exact component={NewPost} props={childProps} />

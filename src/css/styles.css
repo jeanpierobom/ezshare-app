@@ -127,9 +127,10 @@ img.logo-social {
 }
 
 .post {
-  display: grid;
-  grid-template-columns: max-content 1fr;
+  display: flex;
+  /* grid-template-columns: max-content 1fr; */
   margin-bottom: 1rem;
+  background-color: orange !important;
 }
 
 .post-horizontal {
@@ -142,8 +143,13 @@ img.logo-social {
   flex-direction: column;
 }
 
+.post-image {
+  flex-grow: 1;
+}
+
 .post-body {
-    padding: 0 1rem;
+  padding: 0 1rem;
+  flex-grow: 1;
 }
 
 .old-posts {
@@ -188,5 +194,10 @@ img.logo-social {
   .post-video {
     flex-direction: row;
   }
+
+  .img-post {
+    width: 100%;
+    max-width: 300px;
+  }  
   
 }

@@ -29,6 +29,7 @@ import NewPost from "./containers/NewPost";
 import Posts from "./containers/Posts";
 import Signup from "./containers/Signup";
 import YouTubeVideos from "./containers/YouTubeVideos";
+import PopoverExampleMulti from "./containers/PopoverExampleMulti";
   
 import LoginModal from './components/LoginModal'
 import Logo from './images/logo.png'
@@ -172,6 +173,7 @@ class App extends Component {
             <ExclusiveVideos path="/exclusive-videos" />
             <CommunityPosts path="/community-posts" />
             <Admin path="/admin" />
+            <PopoverExampleMulti path="/popover" />
             <Signup path="/signup" />
             <NewPost path="/posts/new" />
             <Posts path="/posts/:id" />

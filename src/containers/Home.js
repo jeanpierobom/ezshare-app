@@ -3,7 +3,6 @@ import { API } from "aws-amplify";
 import Post from '../components/Post';
 import CommunityPost from '../components/CommunityPost';
 import YouTubeFacade from "../model/YouTubeFacade";
-import VimeoFacade from "../model/VimeoFacade";
 import LogoYouTube from '../images/youtube.png'
 import LogoTwitch from '../images/twitch.png'
 import LogoFacebook from '../images/facebook.png'
@@ -11,6 +10,8 @@ import LogoInstagram from '../images/instagram.jpg'
 import LogoTwitter from '../images/twitter.png'
 import AwsConfig from "../util/AwsConfig";
 import Config from '../components/Config'
+import ExamplePieChart from '../components/ExamplePieChart'
+import { Button, UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
 
 export default class Home extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ export default class Home extends Component {
 
       communityPosts: [],
       youtubeIdList: [],
-      youtubeVideos: []
+      youtubeVideos: [],
     };
   }
 
@@ -233,8 +234,6 @@ export default class Home extends Component {
     )
   }
 
-
-
   renderCommunityPosts() {
     return this.state.communityPosts.map(
       (post, i) => this.renderCommunityPost(post)
@@ -243,7 +242,7 @@ export default class Home extends Component {
 
   renderCommunityPost(communityPost) {
     return (      
-      <CommunityPost
+      <CommunityPost key={Math.random()}
         thumbnail={AwsConfig.s3.BUCKET_URL + communityPost.attachment}
         title={communityPost.content}
         content={communityPost.content}
@@ -256,6 +255,19 @@ export default class Home extends Component {
   render() {
     return (
       <div className="home">
+        <div>
+          <Button id="aPopoverFocus" type="button">
+            ...
+          </Button>
+          <UncontrolledPopover trigger="focus" placement="bottom" target="aPopoverFocus">
+            <PopoverHeader>Focus Trigger</PopoverHeader>
+            <PopoverBody>
+              Focusing on the trigging element makes this popover appear. Blurring (clicking away) makes it disappear. You cannot select this text as the popover will disappear when you try.
+              <ExamplePieChart />
+            </PopoverBody>
+          </UncontrolledPopover>          
+        </div>
+
         <section className="hero">
           <section className="popular-post">
             {!this.state.isLoadingYouTube && this.renderPopularPost()}
