@@ -255,19 +255,6 @@ export default class Home extends Component {
   render() {
     return (
       <div className="home">
-        <div>
-          <Button id="aPopoverFocus" type="button">
-            ...
-          </Button>
-          <UncontrolledPopover trigger="focus" placement="bottom" target="aPopoverFocus">
-            <PopoverHeader>Focus Trigger</PopoverHeader>
-            <PopoverBody>
-              Focusing on the trigging element makes this popover appear. Blurring (clicking away) makes it disappear. You cannot select this text as the popover will disappear when you try.
-              <ExamplePieChart />
-            </PopoverBody>
-          </UncontrolledPopover>          
-        </div>
-
         <section className="hero">
           <section className="popular-post">
             {!this.state.isLoadingYouTube && this.renderPopularPost()}
