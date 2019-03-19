@@ -1,6 +1,16 @@
 import React, { Component } from "react";
+import posed from 'react-pose';
 import { API } from "aws-amplify";
 import Post from '../components/Post';
+
+const Container = posed.div({
+  enter: { staggerChildren: 50 }
+});
+
+const P = posed.div({
+  enter: { x: 0, opacity: 1 },
+  exit: { x: 50, opacity: 0 }
+});
 
 export default class CommunityPosts extends Component {
   constructor(props) {
@@ -36,21 +46,24 @@ export default class CommunityPosts extends Component {
 
   renderPost(post) {
     return (
-      <Post
-        thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
-        title={post.content}
-        content={post.content}
-        date={post.createdAt}
-      />
+      <P>
+        <Post
+          thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
+          title={post.content}
+          content={post.content}
+          date={post.createdAt}
+          viewCount={19}
+        />
+      </P>
     )
   }
 
   render() {
     return (
-      <div>
+      <Container>
         <h2>Community Posts</h2>
         {!this.state.isLoading && this.renderPostsList(this.state.posts)}
-      </div>
+      </Container>
     );
   }
 }

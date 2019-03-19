@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import ExamplePieChart from './ExamplePieChart';
+import PieChartLikes from './PieChartLikes';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class PopoverChart extends React.Component {
   constructor(props) {
@@ -8,7 +9,9 @@ class PopoverChart extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      popoverOpen: false
+      popoverOpen: false,
+      likes: props.likes,
+      dislikes: props.dislikes
     };
   }
 
@@ -21,13 +24,15 @@ class PopoverChart extends React.Component {
   render() {
     return (
       <span>
-        <Button className="mr-1" color="secondary" id={'Popover-' + this.props.id} type="button">
-          ...
+        <Button className="mr-1" color="light" id={'Popover-' + this.props.id} type="button">
+          <FontAwesomeIcon icon="chart-bar"/>
         </Button>
         <Popover placement='bottom' trigger="focus" isOpen={this.state.popoverOpen} target={'Popover-' + this.props.id} toggle={this.toggle}>
           <PopoverHeader>Engagement</PopoverHeader>
           <PopoverBody>
-            <ExamplePieChart id={this.props.id} />            
+            <span>
+              <PieChartLikes id={this.props.id} likes={this.props.likes} dislikes={this.props.dislikes} />            
+            </span>
           </PopoverBody>
         </Popover>
       </span>

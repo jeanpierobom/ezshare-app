@@ -1,6 +1,16 @@
 import React, { Component } from "react";
+import posed from 'react-pose';
 import Config from '../components/Config'
 import Post from '../components/Post'
+
+const Container = posed.div({
+  enter: { staggerChildren: 50 }
+});
+
+const P = posed.div({
+  enter: { x: 0, opacity: 1 },
+  exit: { x: 50, opacity: 0 }
+});
 
 export default class ExclusiveVideos extends Component {
   constructor(props) {
@@ -50,18 +60,20 @@ export default class ExclusiveVideos extends Component {
   
   render() {
     return (
-        <div>
-            <h2>Exclusive Videos</h2>
-            {this.state.data.map(
-                (item, i) =>
-                <Post
-                  thumbnail={item.pictures.sizes[5].link}
-                  title={item.name}
-                  content={item.description}
-                  date='date here'
-                />
-            )}
-        </div>
+      <Container>
+        <h2>Exclusive Videos</h2>
+        {this.state.data.map(
+            (item, i) =>
+            <P>
+              <Post
+                thumbnail={item.pictures.sizes[5].link}
+                title={item.name}
+                content={item.description}
+                date='date here'
+              />
+            </P>
+        )}
+      </Container>
     )
   }
 }

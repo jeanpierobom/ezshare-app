@@ -10,8 +10,6 @@ import LogoInstagram from '../images/instagram.jpg'
 import LogoTwitter from '../images/twitter.png'
 import AwsConfig from "../util/AwsConfig";
 import Config from '../components/Config'
-import ExamplePieChart from '../components/ExamplePieChart'
-import { Button, UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
 
 export default class Home extends Component {
   constructor(props) {
@@ -155,6 +153,8 @@ export default class Home extends Component {
           title={lastYoutubePost.title}
           content={lastYoutubePost.description}
           viewCount={lastYoutubePost.viewCount}
+          likes={lastYoutubePost.likes}
+          dislikes={lastYoutubePost.dislikes}
           date={lastYoutubePost.date}
           postLayout="vertical"
         />
@@ -163,8 +163,8 @@ export default class Home extends Component {
           thumbnail={AwsConfig.s3.BUCKET_URL + lastCommunityPost.attachment}
           title={lastCommunityPost.content}
           content={lastCommunityPost.content}
+          viewCount={lastCommunityPost.viewCount}
           date={lastCommunityPost.createdAt}
-          viewCount={-1}
           postLayout="vertical"
         />
 
@@ -189,6 +189,8 @@ export default class Home extends Component {
         title={post.title}
         content={post.description}
         viewCount={post.viewCount}
+        likes={post.likes}
+        dislikes={post.dislikes}
         date={post.date}
       />
     )
@@ -214,6 +216,8 @@ export default class Home extends Component {
         title={videoPost.title}
         content={videoPost.description}
         viewCount={videoPost.viewCount}
+        likes={videoPost.likes}
+        dislikes={videoPost.dislikes}
         date={videoPost.date}
         postLayout="video"
       />
@@ -227,7 +231,9 @@ export default class Home extends Component {
         thumbnail={exclusivePost.pictures.sizes[5].link}
         title={exclusivePost.name}
         content={exclusivePost.description}
-        viewCount={-1}
+        viewCount={exclusivePost.viewCount}
+        likes={exclusivePost.likes}
+        dislikes={exclusivePost.dislikes}
         date='date here'
         postLayout="video"
       />

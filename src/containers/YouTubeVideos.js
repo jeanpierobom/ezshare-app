@@ -1,13 +1,16 @@
 import React, { Component } from "react";
-import { ListGroupItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import posed from 'react-pose';
+import YouTubeFacade from "../model/YouTubeFacade";
 import Post from '../components/Post'
 
-const apiKey = 'AIzaSyBfYeyN-_gdDYb_vcnZPeXGCHU_KM_OssE'
-//const channelId = 'UCQzdMyuz0Lf4zo4uGcEujFw'
-const channelId = 'UCDEccmAmLulgzeLOm9zDljQ'
-const results = 6
+const Container = posed.div({
+  enter: { staggerChildren: 50 }
+});
 
+const P = posed.div({
+  enter: { x: 0, opacity: 1 },
+  exit: { x: 50, opacity: 0 }
+});
 
 export default class YouTubeVideos extends Component {
   constructor(props) {
@@ -20,50 +23,23 @@ export default class YouTubeVideos extends Component {
   }
 
   async componentDidMount() {
-    let url = `https://www.googleapis.com/youtube/v3/search/?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${results}`
-    console.log(url)
-    // TODO convert to await
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
-          const posts = []
-          json.items.forEach(post => {
-            posts.push(post)
-          })
-          this.setState({ posts })
-          //TODO avoid repetition
-          this.setState({ isLoading: false });
-        })
-      .catch(error => {
-          console.error(error)
-          //TODO avoid repetition
-          this.setState({ isLoading: false });
-        })
-
+    const posts = await YouTubeFacade.getPosts();
+    this.setState({ isLoading: false, posts });
   }
   
   renderPostsList(posts) {
     return [{}].concat(posts).map(
       (post, i) =>
-        i !== 0
-          ? <LinkContainer
-              key={post.postId}
-              to={`/posts/${post.postId}`}
-            >
-              <ListGroupItem header={post.content.trim().split("\n")[0]}>
-                {"Created: " + new Date(post.createdAt).toLocaleString()}
-              </ListGroupItem>
-            </LinkContainer>
-          : <LinkContainer
-              key="new"
-              to="/posts/new"
-            >
-              <ListGroupItem>
-                <h4>
-                  <b>{"\uFF0B"}</b> Create a new post
-                </h4>
-              </ListGroupItem>
-            </LinkContainer>
+        <Post key={Math.random()}
+          thumbnail={post.thumbnail}
+          title={post.title}
+          content={post.description}
+          viewCount={post.viewCount}
+          likes={post.likes}
+          dislikes={post.dislikes}
+          date={post.date}
+          postLayout="video"
+        />
     );
   }
 
@@ -71,13 +47,19 @@ export default class YouTubeVideos extends Component {
     return (
       <div>
           {this.state.posts.map(
-              (item, i) =>
-              <Post
-                thumbnail={item.snippet.thumbnails.high.url}
-                title={item.snippet.title}
-                content={item.snippet.description}
-                date='date here'
-              />
+              (post, i) =>
+              <P>
+                <Post key={Math.random()}
+                  thumbnail={post.thumbnail}
+                  title={post.title}
+                  content={post.description}
+                  viewCount={post.viewCount}
+                  likes={post.likes}
+                  dislikes={post.dislikes}
+                  date={post.date}
+                  postLayout="video"
+                />
+              </P>
           )}
       </div>
     )
@@ -85,10 +67,10 @@ export default class YouTubeVideos extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <h2>YouTube Videos</h2>
         {!this.state.isLoading && this.renderPosts()}
-      </div>
+      </Container>
     );
   }
 }

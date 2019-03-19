@@ -8,8 +8,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
-  NavLink } from 'reactstrap';
+  NavItem } from 'reactstrap';
 import { Link } from '@reach/router';
 
 import LoginModal from './LoginModal'

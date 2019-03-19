@@ -1,5 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import PopoverChart from '../components/PopoverChart';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import DateUtil from '../util/DateUtil'; 
 var _ = require('lodash/core');
 
 class Post extends Component {
@@ -10,7 +13,9 @@ class Post extends Component {
             thumbnail: props.thumbnail,
             title: props.title,
             content: props.content,
-            viewCount: props.viewCount,
+            viewCount: props.viewCount || 0,
+            likes: props.likes || 0,
+            dislikes: props.dislikes || 0,
             date: props.date,
             postLayout: props.postLayout || 'horizontal',
         }
@@ -22,7 +27,11 @@ class Post extends Component {
     }
 
     render() {        
-        const { thumbnail, title, content, date, viewCount, postLayout} = this.state
+        const { thumbnail, title, content, date, viewCount, likes, dislikes, postLayout} = this.state
+        var d = new Date(Date.parse(date));
+        d.toString(); // => Wed Jan 11 2012 15:49:59 GMT-0500 (EST)
+        d.getTime(); // => 1326314999415
+        const dateAsString = DateUtil.age(d);
         return (
             <div className={`post post-${postLayout}`}>
                 <div className="post-image">
@@ -30,10 +39,21 @@ class Post extends Component {
                 </div>
                 <div className="post-body">
                     <h3 className="card-title">{title}</h3>
-                    <small className="text-muted">{date}</small>
+                    <Button className="mr-1" color="light">
+                        <FontAwesomeIcon icon="eye"/> {viewCount}
+                    </Button>
+                    <Button className="mr-1" color="light">
+                        <FontAwesomeIcon icon="thumbs-up"/> {likes}
+                    </Button>
+                    <Button className="mr-1" color="light">
+                        <FontAwesomeIcon icon="thumbs-down"/> {dislikes}
+                    </Button>
+                    {likes > 0 || dislikes > 0
+                        ? <PopoverChart key={this.state.id} id={this.state.id} likes={likes} dislikes={dislikes} />
+                        : <Fragment />
+                    }<br/>
+                    <small className="text-muted">{dateAsString}</small>
                     <p className="text-post">{content}</p>
-                    <p className="card-text">{viewCount}</p>
-                    <PopoverChart key={this.state.id} id={this.state.id} />
                 </div>
             </div>
         )

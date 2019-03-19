@@ -24,6 +24,7 @@ class YouTubeFacade {
     const youtubeIdString = await youtubeIdArray.toString();
     const videosUrl = await YouTubeSetup.videosUrl(youtubeIdString);
     const jsonVideos = await HttpClient.getJson(videosUrl);
+    console.log('videosUrl: ' + videosUrl);
 
     // Identify the popular post
     let maxViewCount = 0;
@@ -33,9 +34,11 @@ class YouTubeFacade {
     await jsonVideos.items.forEach(post => {
       const newPost = new YouTubePostItem(
         post.snippet.title,
-        post.snippet.thumbnails.high.url,
+        post.snippet.thumbnails.maxres.url,
         post.snippet.description,
         post.statistics.viewCount,
+        post.statistics.likeCount,
+        post.statistics.dislikeCount,
         post.snippet.publishedAt
       );
       posts.push(newPost);

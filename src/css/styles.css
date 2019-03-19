@@ -104,7 +104,7 @@ img.logo-social {
 .post {
   display: grid;
   grid-template-columns: 1fr;
-  background-color: aqua;
+  /* background-color: aqua; */
 
   /* grid-template-columns: max-content 1fr; */
   margin-bottom: 1rem;
@@ -128,7 +128,7 @@ img.logo-social {
 .post-body {
   padding: 0 1rem;
   /* flex-grow: 1; */
-  background-color: fuchsia;
+  /* background-color: fuchsia; */
 
   /* justify-content: flex-start;
   align-content: flex-start; */
@@ -206,7 +206,7 @@ img.logo-social {
 
   .post-video {
     flex-direction: row;
-    background-color: orange !important;
+    /* background-color: orange !important; */
 
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -218,3 +218,10 @@ img.logo-social {
   }  
   
 }
+
+.popover{
+  max-width: 100%;
+}
+
+svg > g:last-child > g:last-child { pointer-events: none }
+div.google-visualization-tooltip { pointer-events: none }

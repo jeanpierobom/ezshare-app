@@ -1,12 +1,16 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
+    faChartBar,
     faCoffee,
     faCopyright,
-    faSyncAlt } from '@fortawesome/free-solid-svg-icons'
+    faEye,
+    faSyncAlt,
+    faThumbsUp,
+    faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 
 const IconSetup = {
     setup() {
-        library.add(faCoffee, faCopyright, faSyncAlt)
+        library.add(faChartBar, faCoffee, faCopyright, faEye, faSyncAlt, faThumbsUp, faThumbsDown)
     }
 }
 
