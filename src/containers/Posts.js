@@ -25,11 +25,11 @@ export default class Posts extends Component {
     try {
       let attachmentURL;
       const post = await this.getPost();
-      const { content, attachment } = post;
+      const { content } = post;
 
-      if (attachment) {
-        attachmentURL = await Storage.vault.get(attachment);
-      }
+      // if (attachment) {
+      //   attachmentURL = await Storage.vault.get(attachment);
+      // }
 
       this.setState({
         post,
@@ -42,7 +42,11 @@ export default class Posts extends Component {
   }
 
   getPost() {
-    return API.get("community-posts", `/community-posts/${this.props.match.params.id}`);
+    console.log('this.props: ' + this.props);
+    console.log('JSON stringify: ' + JSON.stringify(this.props));
+    console.log('this.props.id: ' + this.props.id);
+    alert('make request');
+    return API.get("community-posts", `/community-posts/${this.props.id}`);
   }
 
   validateForm() {
@@ -64,7 +68,7 @@ export default class Posts extends Component {
   }
   
   savePost(post) {
-    return API.put("community-posts", `/community-posts/${this.props.match.params.id}`, {
+    return API.put("community-posts", `/community-posts/${this.props.id}`, {
       body: post
     });
   }
@@ -98,7 +102,7 @@ export default class Posts extends Component {
   }
   
   deletePost() {
-    return API.del("community-posts", `/community-posts/${this.props.match.params.id}`);
+    return API.del("community-posts", `/community-posts/${this.props.id}`);
   }
   
   handleDelete = async event => {

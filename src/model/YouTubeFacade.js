@@ -45,7 +45,6 @@ class YouTubeFacade {
 
       // Identify the popular post
       try {
-        console.log('newPost.viewCount: ' + newPost.viewCount);
         let viewCount = parseInt(newPost.viewCount);
 
         if (!this.popularPost) {

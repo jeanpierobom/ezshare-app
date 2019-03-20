@@ -52,7 +52,7 @@ export default class CommunityPosts extends Component {
           title={post.content}
           content={post.content}
           date={post.createdAt}
-          viewCount={19}
+          viewCount={0}
         />
       </P>
     )

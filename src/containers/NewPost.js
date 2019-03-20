@@ -6,6 +6,7 @@ import { s3Upload } from "../libs/awsLib";
 import LoaderButton from "../components/LoaderButton";
 import AwsConfig from "../util/AwsConfig";
 import "./NewPost.css";
+import { navigate } from "@reach/router";
 
 export default class NewPost extends Component {
   constructor(props) {
@@ -52,7 +53,9 @@ export default class NewPost extends Component {
         attachment,
         content: this.state.content
       });
-      this.props.history.push("/");
+      alert('lets go')
+      navigate("/")
+      //this.props.history.push("/");
     } catch (e) {
       alert(e);
       this.setState({ isLoading: false });

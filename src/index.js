@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Link, Location } from '@reach/router';
 import { navigate } from "@reach/router"
@@ -21,7 +21,6 @@ import AwsSetup from './util/AwsSetup';
 import IconSetup from './util/IconSetup';
 
 import Admin from "./containers/Admin";
-import All from "./containers/All";
 import CommunityPosts from "./containers/CommunityPosts";
 import ExclusiveVideos from "./containers/ExclusiveVideos";
 import Home from "./containers/Home";
@@ -102,6 +101,10 @@ class App extends Component {
     navigate('/')
   }
 
+  handleAdminButton = async event => {
+    navigate('/admin')
+  }
+
   toggleMenu() {
     this.setState({
       isOpen: !this.state.isOpen
@@ -132,9 +135,6 @@ class App extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <Link to="/all" className="nav-link">All Posts</Link>
-                </NavItem>
-                <NavItem>
                   <Link to="/youtube-videos" className="nav-link">YouTube Videos</Link>
                 </NavItem>
                 <NavItem>
@@ -150,7 +150,10 @@ class App extends Component {
                 </NavItem>              
                 <NavItem>
                   {this.state.isAuthenticated
-                      ? <Button color="secondary" outline onClick={this.handleLogout}>Logout</Button>
+                      ? <Fragment>
+                          <Button color="primary" onClick={this.handleAdminButton}>Admin Area</Button> { " " }
+                          <Button color="secondary" outline onClick={this.handleLogout}>Logout</Button>
+                        </Fragment>
                       : <LoginModal
                           isAuthenticated={this.isAuthenticated}
                           showSignupForm={this.showSignupForm}
@@ -168,7 +171,6 @@ class App extends Component {
           <PosedRouter>
             <Home path="/" />
             <About path="/about" />
-            <All path="/all" props={childProps} />
             <YouTubeVideos path="/youtube-videos" />
             <ExclusiveVideos path="/exclusive-videos" />
             <CommunityPosts path="/community-posts" />
@@ -177,7 +179,6 @@ class App extends Component {
             <Signup path="/signup" />
             <NewPost path="/posts/new" />
             <Posts path="/posts/:id" />
-
             <Terms path="/terms" />
             <Privacy path="/privacy" />
             <Contact path="/contact" />

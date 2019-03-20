@@ -10,7 +10,6 @@ import {
   Nav,
   NavItem,
   NavLink } from 'reactstrap';
-import LoginForm from './LoginForm'
 import LoginModal from './LoginModal'
 import Logo from '../images/logo.png'
 
@@ -49,9 +48,6 @@ export default class Header extends React.Component {
           <NavbarToggler onClick={this.toggleMenu} />
           <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/all">All Posts</NavLink>
-              </NavItem>
               <NavItem>
                 <NavLink href="/youtube-videos">YouTube Videos</NavLink>
               </NavItem>
