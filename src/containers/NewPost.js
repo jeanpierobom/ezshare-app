@@ -53,9 +53,7 @@ export default class NewPost extends Component {
         attachment,
         content: this.state.content
       });
-      alert('lets go')
       navigate("/")
-      //this.props.history.push("/");
     } catch (e) {
       alert(e);
       this.setState({ isLoading: false });
@@ -71,6 +69,7 @@ export default class NewPost extends Component {
   render() {
     return (
       <div className="NewPost">
+        <h2>New Community Post</h2>
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="content">
             <FormControl

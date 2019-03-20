@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+import { Button } from 'reactstrap';
 import PopoverChart from '../components/PopoverChart';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import DateUtil from '../util/DateUtil'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { navigate } from '@reach/router';
+import DateUtil from '../util/DateUtil';
+import LoaderButton from "../components/LoaderButton";
 var _ = require('lodash/core');
 
 class Post extends Component {
@@ -18,12 +20,20 @@ class Post extends Component {
             dislikes: props.dislikes || 0,
             date: props.date,
             postLayout: props.postLayout || 'horizontal',
+            edit: props.edit,
+            postId: props.postId
         }
     }
 
     componentDidMount() {
         const id = _.uniqueId('post_');
         this.setState({ id });
+    }
+
+    handleEdit = async (event, postId) => {
+        event.preventDefault();
+        this.setState({ isEditing: true });
+        navigate(`/posts/${postId}`);
     }
 
     render() {        
@@ -48,6 +58,13 @@ class Post extends Component {
                     <Button className="mr-1" color="light">
                         <FontAwesomeIcon icon="thumbs-down"/> {dislikes}
                     </Button>
+                    { (this.state.edit ? 
+                        <LoaderButton
+                            bsStyle="primary"
+                            onClick={event => { this.handleEdit(event, this.state.postId) }}
+                            text="Edit"
+                        />
+                    : <Fragment /> )}
                     {likes > 0 || dislikes > 0
                         ? <PopoverChart key={this.state.id} id={this.state.id} likes={likes} dislikes={dislikes} />
                         : <Fragment />

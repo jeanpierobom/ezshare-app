@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { navigate } from '@reach/router';
 import { Auth } from "aws-amplify";
 import Header from './components/Header'
 import Routes from "./Routes";
@@ -39,7 +40,7 @@ class App extends Component {
   handleLogout = async event => {
     await Auth.signOut();
     this.userHasAuthenticated(false);
-    this.props.history.push("/");
+    navigate("/");
   }
 
   render() {

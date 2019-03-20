@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { API, Storage } from "aws-amplify";
+import { API } from "aws-amplify";
 import LoaderButton from "../components/LoaderButton";
 import { s3Upload } from "../libs/awsLib";
 import AwsConfig from "../util/AwsConfig";
+import { navigate } from '@reach/router';
 import "./Posts.css";
 
 export default class Posts extends Component {
@@ -42,10 +43,6 @@ export default class Posts extends Component {
   }
 
   getPost() {
-    console.log('this.props: ' + this.props);
-    console.log('JSON stringify: ' + JSON.stringify(this.props));
-    console.log('this.props.id: ' + this.props.id);
-    alert('make request');
     return API.get("community-posts", `/community-posts/${this.props.id}`);
   }
 
@@ -94,7 +91,7 @@ export default class Posts extends Component {
         content: this.state.content,
         attachment: attachment || this.state.post.attachment
       });
-      this.props.history.push("/");
+      navigate("/admin");
     } catch (e) {
       alert(e);
       this.setState({ isLoading: false });
@@ -120,7 +117,7 @@ export default class Posts extends Component {
   
     try {
       await this.deletePost();
-      this.props.history.push("/");
+      navigate("/");
     } catch (e) {
       alert(e);
       this.setState({ isDeleting: false });

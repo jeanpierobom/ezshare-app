@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { PageHeader, ListGroup } from "react-bootstrap";
 import { API } from "aws-amplify";
-import { Link, navigate } from '@reach/router';
-import { NavItem } from 'reactstrap';
-import LoaderButton from "../components/LoaderButton";
+import { Button } from 'reactstrap';
+import { navigate } from '@reach/router';
 import Post from '../components/Post';
 
 export default class Admin extends Component {
@@ -28,6 +27,10 @@ export default class Admin extends Component {
     this.setState({ isLoading: false });
   }
   
+  handleNewPost = async event => {
+    navigate('/posts/new')
+  }
+
   posts() {
     return API.get("community-posts", "/community-posts");
   }
@@ -43,63 +46,18 @@ export default class Admin extends Component {
                 content={post.content}
                 date={post.createdAt}
                 viewCount={0}
+                edit={true}
+                postId={post.postId}
               />
-              <NavItem>
-                <Link to={`/posts/${post.postId}`} className="nav-link">Edit</Link>
-              </NavItem>
-              <NavItem>
-                <Link to={`/posts/${post.postId}`} className="nav-link">Delete</Link>
-              </NavItem>
-              <LoaderButton
-                block
-                bsStyle="danger"
-                bsSize="large"
-                isLoading={this.state.isDeleting}
-                onClick={this.handleDelete}
-                text="Delete"
-                loadingText="Deleting…"
-              />
-
-
-
             </Fragment>
-
-          : <NavItem>
-              <Link to="/posts/new" className="nav-link">Create a New Post</Link>
-            </NavItem>
+          : <div><Button color="primary" onClick={this.handleNewPost}>Create a New Post</Button><br/><br/></div>
     );
-  }
-
-  handleDelete = async event => {
-    event.preventDefault();
-  
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this note?"
-    );
-  
-    if (!confirmed) {
-      return;
-    }
-  
-    this.setState({ isDeleting: true });
-  
-    try {
-      await this.deleteNote();
-      navigate("/");
-    } catch (e) {
-      alert(e);
-      this.setState({ isDeleting: false });
-    }
-  }
-
-  deleteNote() {
-    return API.del("community-posts", `/${this.props.id}`);
   }
 
   renderPosts() {
     return (
       <div className="posts">
-        <PageHeader>Your Posts</PageHeader>
+        <h2>Admin Area</h2>
         <ListGroup>
           {!this.state.isLoading && this.renderPostsList(this.state.posts)}
         </ListGroup>
