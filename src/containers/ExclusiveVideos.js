@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import posed from 'react-pose';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Config from '../components/Config'
 import Post from '../components/Post'
 

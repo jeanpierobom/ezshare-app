@@ -16,10 +16,8 @@ import {
   NavItem
 } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import AwsSetup from './util/AwsSetup';
 import IconSetup from './util/IconSetup';
-
 import Admin from "./containers/Admin";
 import CommunityPosts from "./containers/CommunityPosts";
 import ExclusiveVideos from "./containers/ExclusiveVideos";
@@ -28,18 +26,13 @@ import NewPost from "./containers/NewPost";
 import Posts from "./containers/Posts";
 import Signup from "./containers/Signup";
 import YouTubeVideos from "./containers/YouTubeVideos";
-import PopoverExampleMulti from "./containers/PopoverExampleMulti";
-  
 import LoginModal from './components/LoginModal'
-import Logo from './images/logo.png'
-  
+import Logo from './images/logo.png'  
 import About from './pages/about';
 import Terms from './pages/terms';
 import Privacy from './pages/privacy';
 import Contact from './pages/contact';
-
 import './css/styles.css';
-
 
 const RouteContainer = posed.div({
   enter: { opacity: 1, delay: 300, beforeChildren: 300 },
@@ -118,11 +111,6 @@ class App extends Component {
   }
 
   render() {
-    const childProps = {
-      isAuthenticated: this.state.isAuthenticated,
-      userHasAuthenticated: this.userHasAuthenticated
-    };
-
     return (
       !this.state.isAuthenticating &&
         <div id="site-container">
@@ -135,13 +123,22 @@ class App extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <Link to="/youtube-videos" className="nav-link">YouTube Videos</Link>
+                  <Link to="/youtube-videos" className="nav-link">
+                    <FontAwesomeIcon icon={['fab', 'youtube']}/>&nbsp;
+                    YouTube Videos
+                  </Link>
                 </NavItem>
                 <NavItem>
-                  <Link to="/exclusive-videos" className="nav-link">Exclusive Videos</Link>
+                  <Link to="/exclusive-videos" className="nav-link">
+                    <FontAwesomeIcon icon="video"/>&nbsp;
+                    Exclusive Videos
+                  </Link>
                 </NavItem>
                 <NavItem>
-                  <Link to="/community-posts" className="nav-link">Community Posts</Link>
+                  <Link to="/community-posts" className="nav-link">
+                    <FontAwesomeIcon icon="users"/>&nbsp;
+                    Community Posts
+                  </Link>
                 </NavItem>
                 <NavItem>
                   <Form inline>
@@ -175,8 +172,11 @@ class App extends Component {
             <ExclusiveVideos path="/exclusive-videos" />
             <CommunityPosts path="/community-posts" />
             <Admin path="/admin" />
-            <PopoverExampleMulti path="/popover" />
-            <Signup path="/signup" />
+            <Signup
+              path="/signup"
+              isAuthenticated={this.isAuthenticated}
+              userHasAuthenticated={this.userHasAuthenticated}
+            />
             <NewPost path="/posts/new" />
             <Posts path="/posts/:id" />
             <Terms path="/terms" />
@@ -198,11 +198,10 @@ class App extends Component {
               <Link to="/contact">Contact Us</Link>
             </NavItem>
             <NavItem>
-              <FontAwesomeIcon icon="copyright"/>
+              <FontAwesomeIcon icon="copyright"/>&nbsp;
               Copyright 2019
             </NavItem>
           </Nav>
-          
         </footer>
       </div>
     );

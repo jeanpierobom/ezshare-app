@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import posed from 'react-pose';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import YouTubeFacade from "../model/YouTubeFacade";
 import Post from '../components/Post'
 

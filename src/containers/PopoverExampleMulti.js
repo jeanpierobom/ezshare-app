@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import PopoverChart from '../components/PopoverChart';
 
 class PopoverExampleMulti extends React.Component {

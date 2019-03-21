@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import posed from 'react-pose';
 import { API } from "aws-amplify";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Post from '../components/Post';
 
 const Container = posed.div({

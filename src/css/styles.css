@@ -162,6 +162,15 @@ img.logo-social {
   margin: 0 1rem;
 }
 
+.form-signup {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.form-signup .card-footer {
+  text-align: right;
+}
+
 @media (min-width: 768px) {
   .hero {
     flex-direction: row;
@@ -216,6 +225,13 @@ img.logo-social {
     width: 100%;
     /* max-width: 300px; */
   }  
+
+  .form-signup {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 900px;
+    margin: auto;
+  }
   
 }
 

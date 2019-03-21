@@ -6,11 +6,14 @@ import {
     faEye,
     faSyncAlt,
     faThumbsUp,
-    faThumbsDown } from '@fortawesome/free-solid-svg-icons'
-
+    faThumbsDown,
+    faUsers,
+    faVideo } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+    
 const IconSetup = {
     setup() {
-        library.add(faChartBar, faCoffee, faCopyright, faEye, faSyncAlt, faThumbsUp, faThumbsDown)
+        library.add(faChartBar, faCoffee, faCopyright, faEye, faSyncAlt, faThumbsUp, faThumbsDown, faUsers, faVideo, fab)
     }
 }
 

@@ -6,8 +6,9 @@ import {
   FormControl,
   ControlLabel
 } from "react-bootstrap";
+import { Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
 import LoaderButton from "../components/LoaderButton";
-import "./Signup.css";
+import { navigate } from "@reach/router";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -35,6 +36,10 @@ export default class Signup extends Component {
 
   validateConfirmationForm() {
     return this.state.confirmationCode.length > 0;
+  }
+
+  handleCancel = event => {
+    navigate('/');
   }
 
   handleChange = event => {
@@ -76,7 +81,7 @@ export default class Signup extends Component {
       await Auth.signIn(this.state.email, this.state.password);
   
       this.props.userHasAuthenticated(true);
-      this.props.history.push("/");
+      navigate("/");
     } catch (e) {
       alert(e.message);
       this.setState({ isLoading: false });
@@ -85,90 +90,109 @@ export default class Signup extends Component {
 
   renderConfirmationForm() {
     return (
-      <Fragment>
-        <h2>Confirmation</h2>
-        <form onSubmit={this.handleConfirmationSubmit}>
-          <FormGroup controlId="confirmationCode" bsSize="large">
-            <ControlLabel>Confirmation Code</ControlLabel>
-            <FormControl
-              autoFocus
-              type="tel"
-              value={this.state.confirmationCode}
-              onChange={this.handleChange}
-            />
-            <HelpBlock>Please check your email for the code.</HelpBlock>
-          </FormGroup>
-          <LoaderButton
-            block
-            bsSize="large"
-            disabled={!this.validateConfirmationForm()}
-            type="submit"
-            isLoading={this.state.isLoading}
-            text="Verify"
-            loadingText="Verifying…"
-          />
-        </form>
-      </Fragment>
+      <form onSubmit={this.handleConfirmationSubmit}>
+        <Card>
+          <CardHeader>
+            <h2>Confirmation</h2>    
+          </CardHeader>
+          <CardBody>
+            <CardText>
+              <FormGroup controlId="confirmationCode" bsSize="large">
+                <ControlLabel>Confirmation Code</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="tel"
+                  value={this.state.confirmationCode}
+                  onChange={this.handleChange}
+                />
+                <HelpBlock>Please check your email for the code.</HelpBlock>
+              </FormGroup>
+              <LoaderButton
+                className="btn btn-primary"
+                block
+                bsSize="large"
+                disabled={!this.validateConfirmationForm()}
+                type="submit"
+                isLoading={this.state.isLoading}
+                text="Verify"
+                loadingText="Verifying…"
+              />
+            </CardText>
+          </CardBody>
+          <CardFooter>
+            <Button color="secondary" onClick={this.handleCancel}>Cancel</Button>
+          </CardFooter>
+        </Card>
+      </form>
     );
   }
 
   renderForm() {
     return (
-      <Fragment>
-        <h2>Sign Up</h2>
-        <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
-            <FormControl
-              autoFocus
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="nickname" bsSize="large">
-            <ControlLabel>Nickname</ControlLabel>
-            <FormControl
-              autoFocus
-              type="text"
-              value={this.state.nickname}
-              onChange={this.handleChange}
-            />
-          </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <FormGroup controlId="confirmPassword" bsSize="large">
-            <ControlLabel>Confirm Password</ControlLabel>
-            <FormControl
-              value={this.state.confirmPassword}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <LoaderButton
-            className="btn btn-primary"
-            block
-            bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
-            isLoading={this.state.isLoading}
-            text="Signup"
-            loadingText="Signing up…"
-          />
-        </form>
-      </Fragment>
+      <form onSubmit={this.handleSubmit}>
+        <Card>
+          <CardHeader>
+            <h2>Sign Up</h2>    
+          </CardHeader>
+          <CardBody>
+            <CardText>
+              <FormGroup controlId="email" bsSize="large">
+                <ControlLabel>Email</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="email"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup controlId="nickname" bsSize="large">
+                <ControlLabel>Nickname</ControlLabel>
+                <FormControl
+                  autoFocus
+                  type="text"
+                  value={this.state.nickname}
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup controlId="password" bsSize="large">
+                <ControlLabel>Password</ControlLabel>
+                <FormControl
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                  type="password"
+                />
+              </FormGroup>
+              <FormGroup controlId="confirmPassword" bsSize="large">
+                <ControlLabel>Confirm Password</ControlLabel>
+                <FormControl
+                  value={this.state.confirmPassword}
+                  onChange={this.handleChange}
+                  type="password"
+                />
+              </FormGroup>
+              <LoaderButton
+                className="btn btn-primary"
+                block
+                bsSize="large"
+                disabled={!this.validateForm()}
+                type="submit"
+                isLoading={this.state.isLoading}
+                text="Signup"
+                loadingText="Signing up…"
+              />
+            </CardText>
+          </CardBody>
+          <CardFooter>
+            <Button color="secondary" onClick={this.handleCancel}>Cancel</Button>
+          </CardFooter>
+        </Card>
+      </form>
     );
   }
 
   render() {
     return (
-      <div className="Signup">
+      <div className="form-signup">
         {this.state.newUser === null
           ? this.renderForm()
           : this.renderConfirmationForm()}

@@ -79,7 +79,7 @@ export default class NewPost extends Component {
             />
           </FormGroup>
           <FormGroup controlId="file">
-            <ControlLabel>Attachment</ControlLabel>
+            <ControlLabel>Attachment &nbsp;</ControlLabel>
             <FormControl onChange={this.handleFileChange} type="file" />
           </FormGroup>
           <LoaderButton

@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { Button } from 'reactstrap';
+import { Badge, Button } from 'reactstrap';
 import PopoverChart from '../components/PopoverChart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { navigate } from '@reach/router';
 import DateUtil from '../util/DateUtil';
 import LoaderButton from "../components/LoaderButton";
+import PostBadge from "../components/PostBadge";
 var _ = require('lodash/core');
 
 class Post extends Component {
@@ -39,8 +40,6 @@ class Post extends Component {
     render() {        
         const { thumbnail, title, content, date, viewCount, likes, dislikes, postLayout} = this.state
         var d = new Date(Date.parse(date));
-        d.toString(); // => Wed Jan 11 2012 15:49:59 GMT-0500 (EST)
-        d.getTime(); // => 1326314999415
         const dateAsString = DateUtil.age(d);
         return (
             <div className={`post post-${postLayout}`}>
@@ -49,6 +48,7 @@ class Post extends Component {
                 </div>
                 <div className="post-body">
                     <h3 className="card-title">{title}</h3>
+                    <PostBadge />
                     <Button className="mr-1" color="light">
                         <FontAwesomeIcon icon="eye"/> {viewCount}
                     </Button>
