@@ -1,6 +1,7 @@
 class YouTubePostItem {
 
-  constructor(title, thumbnail, description, viewCount, likes, dislikes, date) {
+  constructor(postId, title, thumbnail, description, viewCount, likes, dislikes, date) {
+    this.postId = postId;
     this.title = title;
     this.thumbnail = thumbnail;
     this.description = description;

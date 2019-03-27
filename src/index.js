@@ -8,8 +8,6 @@ import { Auth } from "aws-amplify";
 import {
   Button,
   Collapse,
-  Form,
-  Input,
   Navbar,
   NavbarToggler,
   Nav,
@@ -27,6 +25,9 @@ import Posts from "./containers/Posts";
 import Signup from "./containers/Signup";
 import YouTubeVideos from "./containers/YouTubeVideos";
 import LoginModal from './components/LoginModal'
+import PostYouTube from "./containers/PostYouTube";
+import PostExclusive from "./containers/PostExclusive";
+import PostCommunity from "./containers/PostCommunity";
 import Logo from './images/logo.png'  
 import About from './pages/about';
 import Terms from './pages/terms';
@@ -140,11 +141,11 @@ class App extends Component {
                     Community Posts
                   </Link>
                 </NavItem>
-                <NavItem>
+                {/* <NavItem>
                   <Form inline>
                     <Input type="search" className="mr-3" placeholder="Search" />
                   </Form>
-                </NavItem>              
+                </NavItem>               */}
                 <NavItem>
                   {this.state.isAuthenticated
                       ? <Fragment>
@@ -171,6 +172,9 @@ class App extends Component {
             <YouTubeVideos path="/youtube-videos" />
             <ExclusiveVideos path="/exclusive-videos" />
             <CommunityPosts path="/community-posts" />
+            <PostYouTube path="/post-youtube/:postId" />
+            <PostCommunity path="/post-community/:postId" />
+            <PostExclusive path="/post-exclusive/:postId" />
             <Admin path="/admin" />
             <Signup
               path="/signup"

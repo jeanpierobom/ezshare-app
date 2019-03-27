@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import posed from 'react-pose';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import YouTubeFacade from "../model/YouTubeFacade";
 import Post from '../components/Post'
 
@@ -28,22 +27,6 @@ export default class YouTubeVideos extends Component {
     this.setState({ isLoading: false, posts });
   }
   
-  renderPostsList(posts) {
-    return [{}].concat(posts).map(
-      (post, i) =>
-        <Post key={Math.random()}
-          thumbnail={post.thumbnail}
-          title={post.title}
-          content={post.description}
-          viewCount={post.viewCount}
-          likes={post.likes}
-          dislikes={post.dislikes}
-          date={post.date}
-          postLayout="video"
-        />
-    );
-  }
-
   renderPosts() {
     return (
       <div>
@@ -59,6 +42,9 @@ export default class YouTubeVideos extends Component {
                   dislikes={post.dislikes}
                   date={post.date}
                   postLayout="video"
+                  source="youtube"
+                  postId={post.postId}
+                  renderLinks={true}
                 />
               </P>
           )}

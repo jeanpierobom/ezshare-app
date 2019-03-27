@@ -157,6 +157,9 @@ export default class Home extends Component {
           dislikes={lastYoutubePost.dislikes}
           date={lastYoutubePost.date}
           postLayout="vertical"
+          source="youtube"
+          postId={lastYoutubePost.postId}
+          renderLinks={true}
         />
 
         <Post key={Math.random()}
@@ -165,7 +168,10 @@ export default class Home extends Component {
           content={lastCommunityPost.content}
           viewCount={lastCommunityPost.viewCount}
           date={lastCommunityPost.createdAt}
+          source="community"
           postLayout="vertical"
+          postId={lastCommunityPost.postId}
+          renderLinks={true}
         />
 
         <Post key={Math.random()}
@@ -175,6 +181,7 @@ export default class Home extends Component {
           viewCount={post.viewCount}
           date={post.date}
           postLayout="vertical"
+          renderLinks={true}
         />
       </Fragment> 
     )
@@ -192,6 +199,9 @@ export default class Home extends Component {
         likes={post.likes}
         dislikes={post.dislikes}
         date={post.date}
+        source="youtube"
+        postId={post.postId}
+        renderLinks={true}
       />
     )
   }
@@ -220,6 +230,9 @@ export default class Home extends Component {
         dislikes={videoPost.dislikes}
         date={videoPost.date}
         postLayout="video"
+        postId={videoPost.postId}
+        source="youtube"
+        renderLinks={true}
       />
     )
   }
@@ -254,6 +267,7 @@ export default class Home extends Component {
         content={communityPost.content}
         date={communityPost.createdAt}
         postLayout="vertical"
+        source="community"
       />
     )
   }
@@ -263,6 +277,7 @@ export default class Home extends Component {
       <div className="home">
         <section className="hero">
           <section className="popular-post">
+            <h3 className="section-title">Trending</h3>
             {!this.state.isLoadingYouTube && this.renderPopularPost()}
           </section>
           <section className="social">
@@ -289,15 +304,18 @@ export default class Home extends Component {
           </section>
         </section>
         <section className="last-posts">
+          <h3 className="section-title">Latest Posts</h3>
           {!this.state.isLoadingAll && this.renderLastPosts()}        
         </section>
         <section className="old-posts">
           <section className="old-posts-videos">
+            <h3 className="section-title">Older Posts</h3>
             {!this.state.isLoadingYouTube && this.renderVideoPosts()}
             {/* {!this.state.isLoadingExclusive && this.renderExclusivePosts()} */}
           </section>
 
           <section className="old-posts-community">
+            <h3 className="section-title">Community Posts</h3>
             {!this.state.isLoadingCommunity && this.renderCommunityPosts()}
           </section>
         </section>

@@ -33,6 +33,7 @@ class YouTubeFacade {
     const posts = [];
     await jsonVideos.items.forEach(post => {
       const newPost = new YouTubePostItem(
+        post.id,
         post.snippet.title,
         post.snippet.thumbnails.maxres.url,
         post.snippet.description,

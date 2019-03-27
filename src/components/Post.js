@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Badge, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import PopoverChart from '../components/PopoverChart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { navigate } from '@reach/router';
@@ -22,7 +22,8 @@ class Post extends Component {
             date: props.date,
             postLayout: props.postLayout || 'horizontal',
             edit: props.edit,
-            postId: props.postId
+            postId: props.postId,
+            renderLinks: props.renderLinks
         }
     }
 
@@ -37,6 +38,12 @@ class Post extends Component {
         navigate(`/posts/${postId}`);
     }
 
+    handleView = async (event, postId) => {
+        event.preventDefault();
+        this.setState({ isEditing: true });
+        navigate(`/post-${this.props.source}/${postId}`)
+    }
+
     render() {        
         const { thumbnail, title, content, date, viewCount, likes, dislikes, postLayout} = this.state
         var d = new Date(Date.parse(date));
@@ -44,11 +51,15 @@ class Post extends Component {
         return (
             <div className={`post post-${postLayout}`}>
                 <div className="post-image">
-                    <img className="img-post" src={thumbnail} alt={title} />
+                    {this.state.renderLinks ?
+                        <a href='#' onClick={event => { this.handleView(event, this.state.postId) }}>
+                            <img className="img-post" src={thumbnail} alt={title} />
+                        </a> : <img className="img-post" src={thumbnail} alt={title} />
+                    }
                 </div>
                 <div className="post-body">
                     <h3 className="card-title">{title}</h3>
-                    <PostBadge />
+                    <PostBadge source={this.props.source} />
                     <Button className="mr-1" color="light">
                         <FontAwesomeIcon icon="eye"/> {viewCount}
                     </Button>

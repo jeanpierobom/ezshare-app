@@ -15,19 +15,16 @@ header {
 footer {
   background-color: #01213D;
   color: white;
-  height: 200px;
+  height: 50px;
 }
 
 footer .nav {
   margin: 0;
-  padding-top: 2rem;
   display: flex;
 }
 
 footer .nav-item {
   padding: 1rem;
-  /* flex-basis: 100px;
-  flex-grow: 1; */
 }
 
 footer .nav-item:last-child {
@@ -90,11 +87,10 @@ img.logo-social {
 
 .last-posts {
   background-color: #FFDF00;
-  /* display: flex;
-  flex-direction: column; */
   display: grid;
   grid-template-columns: 1fr;
   margin-bottom: 1rem;
+  padding-top: 1rem;
 }
 
 .last-posts .post {
@@ -104,16 +100,10 @@ img.logo-social {
 .post {
   display: grid;
   grid-template-columns: 1fr;
-  /* background-color: aqua; */
-
-  /* grid-template-columns: max-content 1fr; */
   margin-bottom: 1rem;
-  /* background-color: orange !important; */
 }
 
 .post-horizontal {
-  /* display: flex;
-  flex-direction: row; */
 }
 
 .post-vertical {
@@ -122,21 +112,13 @@ img.logo-social {
 }
 
 .post-image {
-  /* flex-grow: 1; */
 }
 
 .post-body {
   padding: 0 1rem;
-  /* flex-grow: 1; */
-  /* background-color: fuchsia; */
-
-  /* justify-content: flex-start;
-  align-content: flex-start; */
 }
 
 .old-posts {
-  /* display: flex;
-  flex-direction: column; */
   display: grid;
   grid-template-columns: 1fr;
 }
@@ -147,6 +129,10 @@ img.logo-social {
 
 .old-posts-community {
   flex-grow: 0;
+}
+
+.old-posts-community .section-title {
+  text-align: center;
 }
 
 .img-post {
@@ -169,6 +155,12 @@ img.logo-social {
 
 .form-signup .card-footer {
   text-align: right;
+}
+
+.section-title {
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
@@ -195,35 +187,38 @@ img.logo-social {
     margin-left: 5px;
   }
 
+  .section-title {
+    text-align: left;
+  }
+  
   .post {
     grid-template-columns: 1fr 1fr;
   }
 
   .last-posts {
-    /* flex-direction: row; */
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .last-posts .section-title {
+    grid-column: 1 / 4;
+    text-align: center;
   }
   
   .old-posts {
-    /* flex-direction: row; */
     grid-template-columns: 2fr 1fr;
   }
 
   .old-posts-community {
-    /* max-width: 300px; */
   }
 
   .post-video {
     flex-direction: row;
-    /* background-color: orange !important; */
-
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
 
   .img-post {
     width: 100%;
-    /* max-width: 300px; */
   }  
 
   .form-signup {

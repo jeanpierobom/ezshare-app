@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import {
   HelpBlock,
@@ -6,7 +6,7 @@ import {
   FormControl,
   ControlLabel
 } from "react-bootstrap";
-import { Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
+import { Card, Button, CardHeader, CardFooter, CardBody, CardText } from 'reactstrap';
 import LoaderButton from "../components/LoaderButton";
 import { navigate } from "@reach/router";
 

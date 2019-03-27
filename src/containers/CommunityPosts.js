@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import posed from 'react-pose';
 import { API } from "aws-amplify";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Post from '../components/Post';
 
 const Container = posed.div({
@@ -54,6 +53,7 @@ export default class CommunityPosts extends Component {
           content={post.content}
           date={post.createdAt}
           viewCount={0}
+          source="community"
         />
       </P>
     )

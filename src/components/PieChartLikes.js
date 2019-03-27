@@ -2,7 +2,7 @@ import React from "react";
 import Chart from "react-google-charts";
 
 const pieOptions = {
-  title: "Title",
+  title: "",
   pieHole: 0.6,
   slices: [
     { color: "#2BB673" },
@@ -27,7 +27,7 @@ const pieOptions = {
     width: "100%",
     height: "80%"
   },
-  fontName: "Roboto"
+  fontName: "Roboto",
 };
 
 class PieChartLikes extends React.Component {
@@ -49,8 +49,7 @@ class PieChartLikes extends React.Component {
           data={[["Feedback", "Count"], ["Likes", this.state.likes || 0], ["Dislikes", this.state.dislikes || 0]]}
           options={pieOptions}
           graph_id={'PieChart' + this.props.id}
-          width={"400px"}
-          // height={"400px"}
+          // width={"400px"}
           legend_toggle
         />
       </div>

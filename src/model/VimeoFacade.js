@@ -23,7 +23,7 @@ class VimeoFacade {
           per_page: 6,
           fields: 'uri,name,description,duration,created_time,modified_time,pictures'
         }
-      }, (error, body, status_code, headers) => {
+      }, async (error, body, status_code, headers) => {
       if (error) {
         console.log('error');
         console.log(error);
@@ -37,13 +37,8 @@ class VimeoFacade {
             items.push(item)
         })
         posts = items;
-        alert('posts 1 ' + posts)
-        // this.setState({
-        //     data: items
-        // })
       }
     });
-    alert('posts 2 ' + posts)
     return posts;
   }
 
