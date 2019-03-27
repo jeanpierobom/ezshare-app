@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Button } from 'reactstrap';
+import YouTube from 'react-youtube';
 import PopoverChart from '../components/PopoverChart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { navigate } from '@reach/router';
@@ -23,9 +24,17 @@ class Post extends Component {
             postLayout: props.postLayout || 'horizontal',
             edit: props.edit,
             postId: props.postId,
-            renderLinks: props.renderLinks
+            renderLinks: props.renderLinks,
+            renderYoutubeVideo: props.renderYoutubeVideo
         }
     }
+
+    _onReady(event) {
+        // access to player in all event handlers via event.target
+        // if (this.state.renderYoutubeVideo) {
+        //     event.target.pauseVideo();
+        // }
+    }    
 
     componentDidMount() {
         const id = _.uniqueId('post_');
@@ -45,16 +54,20 @@ class Post extends Component {
     }
 
     render() {        
-        const { thumbnail, title, content, date, viewCount, likes, dislikes, postLayout} = this.state
+        const { thumbnail, title, content, date, viewCount, likes, dislikes, postLayout, renderLinks, renderYoutubeVideo} = this.state
+        const renderVideo = renderYoutubeVideo;
         var d = new Date(Date.parse(date));
         const dateAsString = DateUtil.age(d);
         return (
             <div className={`post post-${postLayout}`}>
                 <div className="post-image">
-                    {this.state.renderLinks ?
-                        <a href='#' onClick={event => { this.handleView(event, this.state.postId) }}>
-                            <img className="img-post" src={thumbnail} alt={title} />
-                        </a> : <img className="img-post" src={thumbnail} alt={title} />
+                    { renderVideo ? 
+                        renderYoutubeVideo ? <div class="videoWrapper"><YouTube videoId={this.state.postId} onReady={this._onReady} /></div> : null
+                    :
+                        renderLinks ?
+                            <a href='#' onClick={event => { this.handleView(event, this.state.postId) }}>
+                                <img className="img-post" src={thumbnail} alt={title} />
+                            </a> : <img className="img-post" src={thumbnail} alt={title} />
                     }
                 </div>
                 <div className="post-body">

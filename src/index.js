@@ -191,21 +191,23 @@ class App extends Component {
         </div>
 
         <footer>
-          <Nav>
-            <NavItem>
-              <Link to="/terms">Terms and Conditions</Link>
-            </NavItem>
-            <NavItem>
-              <Link to="/privacy">Privacy</Link>
-            </NavItem>
-            <NavItem>
-              <Link to="/contact">Contact Us</Link>
-            </NavItem>
-            <NavItem>
-              <FontAwesomeIcon icon="copyright"/>&nbsp;
-              Copyright 2019
-            </NavItem>
-          </Nav>
+          <div className="footerContainer">
+            <Nav>
+              <NavItem>
+                <Link to="/terms">Terms and Conditions</Link>
+              </NavItem>
+              <NavItem>
+                <Link to="/privacy">Privacy</Link>
+              </NavItem>
+              <NavItem>
+                <Link to="/contact">Contact Us</Link>
+              </NavItem>
+              <NavItem>
+                <FontAwesomeIcon icon="copyright"/>&nbsp;
+                Copyright 2019
+              </NavItem>
+            </Nav>
+          </div>
         </footer>
       </div>
     );

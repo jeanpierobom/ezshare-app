@@ -115,10 +115,13 @@ export default class Home extends Component {
         body.data.forEach(item => {
             items.push(item)
         })
+
         this.setState({
-            exclusivePosts: items
+          exclusivePosts: items
         })
 
+        const lastExclusivePost = items[0];
+        this.setState({ lastExclusivePost });
         this.setState({ isLoadingExclusive: false });
       }
     });
@@ -143,10 +146,10 @@ export default class Home extends Component {
 
   renderLastPosts() {
     const post = this.state.popularPost;
-    const lastYoutubePost = this.state.lastYoutubePost;
-    const lastCommunityPost = this.state.lastCommunityPost;
+    const { lastYoutubePost, lastCommunityPost, lastExclusivePost } = this.state;
+
     return (
-      lastYoutubePost && lastCommunityPost && post &&
+      lastYoutubePost && lastCommunityPost && lastExclusivePost &&
       <Fragment>
         <Post key={Math.random()}
           thumbnail={lastYoutubePost.thumbnail}
@@ -175,14 +178,17 @@ export default class Home extends Component {
         />
 
         <Post key={Math.random()}
-          thumbnail={post.thumbnail}
-          title={post.title}
-          content={post.description}
-          viewCount={post.viewCount}
-          date={post.date}
+          thumbnail={lastExclusivePost.pictures.sizes[5].link}
+          title={lastExclusivePost.name}
+          content={lastExclusivePost.description}
+          viewCount={lastExclusivePost.viewCount}
+          date={lastExclusivePost.date}
           postLayout="vertical"
           renderLinks={true}
+          postId={lastExclusivePost.uri.replace('/videos/', '')}
+          source="exclusive"
         />
+
       </Fragment> 
     )
   }

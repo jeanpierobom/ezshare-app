@@ -13,6 +13,9 @@ header {
 }
 
 footer {
+  position: absolute;
+  width: 100%;
+  left: 0;
   background-color: #01213D;
   color: white;
   height: 50px;
@@ -20,11 +23,13 @@ footer {
 
 footer .nav {
   margin: 0;
+  padding: 0;
   display: flex;
 }
 
 footer .nav-item {
   padding: 1rem;
+  padding-bottom: 0;
 }
 
 footer .nav-item:last-child {
@@ -34,6 +39,11 @@ footer .nav-item:last-child {
 
 footer a {
   color: white;
+}
+
+.footerContainer {
+  max-width: 1200px;
+  margin: auto;
 }
 
 .logo {
@@ -48,11 +58,30 @@ footer a {
 }
 
 #content-container {
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - (60px));
 }
 
 img {
   width: 100%;
+}
+
+video {
+  width: 100%    !important;
+  height: auto   !important;
+}
+
+.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 
 .hero {

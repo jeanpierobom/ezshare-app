@@ -44,6 +44,8 @@ export default class PostYouTube extends Component {
             date={currentPost.date}
             postLayout="video"
             source="youtube"
+            renderYoutubeVideo={true}
+            postId={currentPost.postId}
           />
         </P>
       </div>
