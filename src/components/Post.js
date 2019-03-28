@@ -8,6 +8,7 @@ import DateUtil from '../util/DateUtil';
 import LoaderButton from "../components/LoaderButton";
 import PostBadge from "../components/PostBadge";
 var _ = require('lodash/core');
+var Vimeo = require('react-vimeo');
 
 class Post extends Component {
     constructor(props) {
@@ -25,7 +26,8 @@ class Post extends Component {
             edit: props.edit,
             postId: props.postId,
             renderLinks: props.renderLinks,
-            renderYoutubeVideo: props.renderYoutubeVideo
+            renderYoutubeVideo: props.renderYoutubeVideo,
+            renderExclusiveVideo: props.renderExclusiveVideo
         }
     }
 
@@ -54,15 +56,18 @@ class Post extends Component {
     }
 
     render() {        
-        const { thumbnail, title, content, date, viewCount, likes, dislikes, postLayout, renderLinks, renderYoutubeVideo} = this.state
-        const renderVideo = renderYoutubeVideo;
+        const { thumbnail, title, content, date, viewCount, likes, dislikes, postLayout, renderLinks, renderYoutubeVideo, renderExclusiveVideo } = this.state
+        const renderVideo = renderYoutubeVideo || renderExclusiveVideo;
         var d = new Date(Date.parse(date));
         const dateAsString = DateUtil.age(d);
         return (
             <div className={`post post-${postLayout}`}>
                 <div className="post-image">
                     { renderVideo ? 
-                        renderYoutubeVideo ? <div class="videoWrapper"><YouTube videoId={this.state.postId} onReady={this._onReady} /></div> : null
+                        <div class="videoWrapper">
+                            {renderYoutubeVideo ? <YouTube videoId={this.state.postId} onReady={this._onReady} /> : null }
+                            {renderExclusiveVideo ? <Vimeo videoId={this.state.postId} autoplay={true} /> : null }
+                        </div>
                     :
                         renderLinks ?
                             <a href='#' onClick={event => { this.handleView(event, this.state.postId) }}>

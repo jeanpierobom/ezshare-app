@@ -59,6 +59,7 @@ export default class PostYouTube extends Component {
             date='date here'
             source="exclusive"
             postId={currentPost.uri.replace('/videos/', '')}
+            renderExclusiveVideo={true}
           />
         </P>
       </div>

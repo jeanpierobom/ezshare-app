@@ -1,6 +1,6 @@
 class YouTubePostItem {
 
-  constructor(postId, title, thumbnail, description, viewCount, likes, dislikes, date) {
+  constructor(postId, title, thumbnail, description, viewCount, likes, dislikes, date, lengthInMinutes) {
     this.postId = postId;
     this.title = title;
     this.thumbnail = thumbnail;
@@ -9,6 +9,7 @@ class YouTubePostItem {
     this.likes = likes;
     this.dislikes = dislikes;
     this.date = date;
+    this.lengthInMinutes = lengthInMinutes;
   }
 
 }

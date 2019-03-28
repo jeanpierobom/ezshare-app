@@ -21,7 +21,9 @@ export default class Admin extends Component {
       activeTab: '2',
       youtubePostsCount: 0,
       exclusivePostsCount: 0,
-      communityPostsCount: 0
+      communityPostsCount: 0,
+      youtubePostsLength: 0,
+      exclusivePostsLength: 0,
     };
   }
 
@@ -38,9 +40,22 @@ export default class Admin extends Component {
       // Retrieve YouTube posts
       const youtubePosts = await YouTubeFacade.getPosts();
       const youtubePostsCount = youtubePosts ? youtubePosts.length : 0;
+      let youtubePostsLength = 0;
+      const calendarArray = []
+      calendarArray.push([{ type: 'date', id: 'Date' }, { type: 'number', id: 'Won/Loss' }])
+      calendarArray.push([new Date(2019, 11, 31), 0]);
+      if (youtubePosts) {
+        youtubePosts.forEach(youtubePost => {
+          //let date = new Date(youtubePost.date)
+          //console.log(new Date(date.getYear(), date.getMonth(), date.getDay()));
+          youtubePostsLength += youtubePost.lengthInMinutes;
+          calendarArray.push([new Date(youtubePost.date), 1]);
+        })
+      }
 
       // Retrieve Exclusive posts
       const exclusivePosts = [];
+      let exclusivePostsLength = 0;
       var Vimeo = require('vimeo').Vimeo;
       const vimeoClient = new Vimeo(Config.VIMEO_CLIENT_ID, Config.VIMEO_CLIENT_SECRET, Config.VIMEO_ACCESS_TOKEN);
       vimeoClient.request({
@@ -51,16 +66,28 @@ export default class Admin extends Component {
           console.log(error);
         } else {
           body.data.forEach(item => {
+            exclusivePostsLength += item.duration;
             exclusivePosts.push(item)
+            calendarArray.push([new Date(item.created_time), 1]);
           })
           const exclusivePostsCount = exclusivePosts.length;
-          this.setState({ exclusivePosts, exclusivePostsCount })
+          exclusivePostsLength = exclusivePostsLength < 60 ? 1 : exclusivePostsLength / 60;
+          this.setState({ exclusivePosts, exclusivePostsCount, exclusivePostsLength })
         }
       });
   
       const communityPosts = await this.getCommunityPosts();
       const communityPostsCount = communityPosts ? communityPosts.length : 0;
-      this.setState({ youtubePosts, youtubePostsCount, communityPosts, communityPostsCount });
+      this.setState({ youtubePosts, youtubePostsCount, youtubePostsLength, communityPosts, communityPostsCount });
+
+      // Iterate over community posts
+      if (communityPosts) {
+        communityPosts.forEach(communityPost => {
+          calendarArray.push([new Date(communityPost.createdAt), 1]);
+        })
+      }
+      this.setState({ calendarArray });
+
     } catch (e) {
       alert(e);
     }
@@ -142,10 +169,10 @@ export default class Admin extends Component {
                   Dashboard
 
                   <CardColumns>
-                    <Card>
+                    <Card style={{width: '100%'}}>
                       <CardHeader>
-                        <div>Posts</div>
-                        <small>Amount of Posts Created in 2019</small>
+                        <div>Posts per Platform</div>
+                        <small>Amount of posts created in 2019</small>
                       </CardHeader>
                       <CardBody>
                         <Chart
@@ -159,43 +186,24 @@ export default class Admin extends Component {
                       </CardBody>
                     </Card>
 
-                    <Card>
+                    <Card style={{width: '100%'}}>
                       <CardHeader>
-                        <div>Views</div>
-                        <small>Amount of Views in 2019</small>
+                        <div>Video Time</div>
+                        <small>Length of videos (in minutes) posted in 2019</small>
                       </CardHeader>
                       <CardBody>
                         <Chart
                           chartType="Bar"
                           loader={<div>Loading Chart</div>}
                           data={[
-                            ['Year', 'YouTube', 'Exclusive', 'Community'],
-                            ['2019', 30, 5, 6]
+                            ['Year', 'YouTube', 'Exclusive'],
+                            ['2019', this.state.youtubePostsLength, this.state.exclusivePostsLength]
                           ]}
                         />
                       </CardBody>
                     </Card>
 
-                    <Card>
-                      <CardHeader>
-                        <div>Views</div>
-                        <small>Amount of Views in 2019</small>
-                      </CardHeader>
-                      <CardBody>
-                        <Chart
-                          chartType="Bar"
-                          loader={<div>Loading Chart</div>}
-                          data={[
-                            ['Year', 'YouTube', 'Exclusive', 'Community'],
-                            ['2019', 30, 5, 6]
-                          ]}
-                        />
-                      </CardBody>
-                    </Card>
-                  </CardColumns>
-
-                  <CardColumns>
-                    <Card>
+                    <Card style={{width: '100%'}}>
                       <CardHeader>
                         <div>User Feedback on YouTube Videos</div>
                         <small>Amount of likes and dislikes in 2019</small>
@@ -208,35 +216,27 @@ export default class Admin extends Component {
                         /> 
                       </CardBody>
                     </Card>
-
-                    <Card>
-                      <CardHeader>
-                        <div>UserFeedback on Vimeo Videos</div>
-                        <small>Amount of likes and dislikes in 2019</small>
-                      </CardHeader>
-                      <CardBody>
-                        <PieChartLikes
-                          id='vimeo-admin-chart'
-                          likes={10}
-                          dislikes={20}
-                        /> 
-                      </CardBody>
-                    </Card>
-
-                    <Card>
-                      <CardHeader>
-                        <div>UserFeedback on Community Posts</div>
-                        <small>Amount of likes and dislikes in 2019</small>
-                      </CardHeader>
-                      <CardBody>
-                        <PieChartLikes
-                          id='community-admin-chart'
-                          likes={10}
-                          dislikes={20}
-                        /> 
-                      </CardBody>
-                    </Card>
                   </CardColumns>
+
+                  {/* <CardColumns> */}
+                    <Card style={{width: '100%'}}>
+                      <CardHeader>
+                        <div>Productivity</div>
+                        <small>Posts created in 2019</small>
+                      </CardHeader>
+                      <CardBody>
+                        <Chart
+                          chartType="Calendar"
+                          loader={<div>Loading Chart</div>}
+                          data={ this.state.calendarArray }
+                          options={{
+                            title: 'Posts Created',
+                          }}
+                          rootProps={{ 'data-testid': '1' }}
+                        />
+                      </CardBody>
+                    </Card>
+                  {/* </CardColumns> */}
                 </Col>
               </Row>
             </TabPane>

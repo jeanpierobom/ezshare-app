@@ -145,7 +145,7 @@ export default class Home extends Component {
   }
 
   renderLastPosts() {
-    const post = this.state.popularPost;
+    // const post = this.state.popularPost;
     const { lastYoutubePost, lastCommunityPost, lastExclusivePost } = this.state;
 
     return (

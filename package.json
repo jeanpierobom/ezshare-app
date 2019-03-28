@@ -13,6 +13,7 @@
     "date-diff": "^0.2.1",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "popper.js": "^1.14.7",
     "react": "^16.8.1",
     "react-bootstrap": "^0.32.4",
@@ -24,6 +25,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
     "react-transition-group": "^2.6.0",
+    "react-vimeo": "^2.0.0",
     "react-youtube": "^7.9.0",
     "reactstrap": "^7.1.0",
     "vimeo": "^2.1.1"

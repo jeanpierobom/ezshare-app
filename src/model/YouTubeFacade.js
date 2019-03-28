@@ -1,6 +1,7 @@
 import YouTubePostItem from "./YouTubePostItem";
 import YouTubeSetup from '../util/YouTubeSetup';
 import HttpClient from '../util/HttpClient';
+var moment = require('moment');
 
 class YouTubeFacade {
 
@@ -32,6 +33,11 @@ class YouTubeFacade {
     // Iterate over all videos
     const posts = [];
     await jsonVideos.items.forEach(post => {
+      let lengthInMinutes = 10;
+      let duration = moment.duration(post.contentDetails.duration);
+      let durationInMinutes = duration.asMinutes();
+      lengthInMinutes += durationInMinutes;
+
       const newPost = new YouTubePostItem(
         post.id,
         post.snippet.title,
@@ -40,7 +46,8 @@ class YouTubeFacade {
         post.statistics.viewCount,
         post.statistics.likeCount,
         post.statistics.dislikeCount,
-        post.snippet.publishedAt
+        post.snippet.publishedAt,
+        lengthInMinutes
       );
       posts.push(newPost);
 
