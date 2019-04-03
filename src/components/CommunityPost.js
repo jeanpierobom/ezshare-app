@@ -16,7 +16,7 @@ class CommunityPost extends Component {
 
     
     render() {        
-        const { thumbnail, title, date, viewCount, postLayout} = this.state
+        const { thumbnail, title, date, viewCount, postLayout } = this.state
         return (
             <div className={`post community-post post-${postLayout}`}>
                 <div>

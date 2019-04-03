@@ -3,11 +3,12 @@ import { API } from "aws-amplify";
 import { TabContent, TabPane, Nav, NavItem, NavLink, Button, Row, Col } from 'reactstrap';
 import { Card, CardHeader, CardColumns, CardBody } from 'reactstrap';
 import classnames from 'classnames';
+import { navigate } from '@reach/router';
+import Chart from "react-google-charts";
+import { Auth } from "aws-amplify"
 import YouTubeFacade from "../model/YouTubeFacade";
 import Config from '../components/Config'
 import PieChartLikes from '../components/PieChartLikes';
-import { navigate } from '@reach/router';
-import Chart from "react-google-charts";
 import Post from '../components/Post';
 
 export default class Admin extends Component {
@@ -36,13 +37,27 @@ export default class Admin extends Component {
   }
 
   async componentDidMount() {
+
+    // Verify if the user has access to the admin resource
+    //TODO implement it with roles in the future 
+    try {
+      const userInfo = await Auth.currentUserInfo();
+      const { attributes } = userInfo;
+      if (attributes.email !== 'ezgameplays2k19@gmail.com') {
+        navigate('/');
+        return;
+      }
+    } catch (e) {
+      alert(e.message);
+    }
+
     try {
       // Retrieve YouTube posts
       const youtubePosts = await YouTubeFacade.getPosts();
       const youtubePostsCount = youtubePosts ? youtubePosts.length : 0;
       let youtubePostsLength = 0;
       const calendarArray = []
-      calendarArray.push([{ type: 'date', id: 'Date' }, { type: 'number', id: 'Won/Loss' }])
+      calendarArray.push([{ type: 'date', id: 'Date' }, { type: 'number', id: 'Posts' }])
       calendarArray.push([new Date(2019, 11, 31), 0]);
       if (youtubePosts) {
         youtubePosts.forEach(youtubePost => {
@@ -112,10 +127,12 @@ export default class Admin extends Component {
                 thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
                 title={post.content}
                 content={post.content}
-                date={post.createdAt}
+                date={new Date(post.createdAt)}
                 viewCount={0}
                 edit={true}
                 postId={post.postId}
+                source="community"
+
               />
             </Fragment>
           : <div><Button color="primary" onClick={this.handleNewPost}>Create a New Post</Button><br/><br/></div>
@@ -168,7 +185,8 @@ export default class Admin extends Component {
                   <br/>
                   Dashboard
 
-                  <CardColumns>
+                  {/* <div className="charts"> */}
+                  <CardColumns className="cardCharts">
                     <Card style={{width: '100%'}}>
                       <CardHeader>
                         <div>Posts per Platform</div>
@@ -188,6 +206,20 @@ export default class Admin extends Component {
 
                     <Card style={{width: '100%'}}>
                       <CardHeader>
+                        <div>User Feedback on YouTube Videos</div>
+                        <small>Amount of likes and dislikes in 2019</small>
+                      </CardHeader>
+                      <CardBody>
+                        <PieChartLikes
+                          id='youtube-admin-chart'
+                          likes={10}
+                          dislikes={20}
+                        /> 
+                      </CardBody>
+                    </Card>
+
+                    <Card style={{width: '100%'}}>
+                      <CardHeader>
                         <div>Video Time</div>
                         <small>Length of videos (in minutes) posted in 2019</small>
                       </CardHeader>
@@ -202,40 +234,26 @@ export default class Admin extends Component {
                         />
                       </CardBody>
                     </Card>
-
-                    <Card style={{width: '100%'}}>
-                      <CardHeader>
-                        <div>User Feedback on YouTube Videos</div>
-                        <small>Amount of likes and dislikes in 2019</small>
-                      </CardHeader>
-                      <CardBody>
-                        <PieChartLikes
-                          id='youtube-admin-chart'
-                          likes={10}
-                          dislikes={20}
-                        /> 
-                      </CardBody>
-                    </Card>
                   </CardColumns>
 
                   {/* <CardColumns> */}
-                    <Card style={{width: '100%'}}>
-                      <CardHeader>
-                        <div>Productivity</div>
-                        <small>Posts created in 2019</small>
-                      </CardHeader>
-                      <CardBody>
-                        <Chart
-                          chartType="Calendar"
-                          loader={<div>Loading Chart</div>}
-                          data={ this.state.calendarArray }
-                          options={{
-                            title: 'Posts Created',
-                          }}
-                          rootProps={{ 'data-testid': '1' }}
-                        />
-                      </CardBody>
-                    </Card>
+                  <Card style={{width: '100%', marginTop: '1rem', marginBottom: '1rem'}}>
+                    <CardHeader>
+                      <div>Productivity</div>
+                      <small>Posts created in 2019</small>
+                    </CardHeader>
+                    <CardBody>
+                      <Chart
+                        chartType="Calendar"
+                        loader={<div>Loading Chart</div>}
+                        data={ this.state.calendarArray }
+                        options={{
+                          title: 'Posts Created',
+                        }}
+                        rootProps={{ 'data-testid': '1' }}
+                      />
+                    </CardBody>
+                  </Card>
                   {/* </CardColumns> */}
                 </Col>
               </Row>

@@ -55,7 +55,7 @@ class Post extends Component {
         navigate(`/post-${this.props.source}/${postId}`)
     }
 
-    render() {        
+    render() {
         const { thumbnail, title, content, date, viewCount, likes, dislikes, postLayout, renderLinks, renderYoutubeVideo, renderExclusiveVideo } = this.state
         const renderVideo = renderYoutubeVideo || renderExclusiveVideo;
         var d = new Date(Date.parse(date));
@@ -78,15 +78,23 @@ class Post extends Component {
                 <div className="post-body">
                     <h3 className="card-title">{title}</h3>
                     <PostBadge source={this.props.source} />
-                    <Button className="mr-1" color="light">
-                        <FontAwesomeIcon icon="eye"/> {viewCount}
-                    </Button>
-                    <Button className="mr-1" color="light">
-                        <FontAwesomeIcon icon="thumbs-up"/> {likes}
-                    </Button>
-                    <Button className="mr-1" color="light">
-                        <FontAwesomeIcon icon="thumbs-down"/> {dislikes}
-                    </Button>
+                    {this.props.source === 'youtube' || this.props.source === 'exclusive'
+                    ? 
+                        <Button className="mr-1" color="light">
+                            <FontAwesomeIcon icon="eye"/> {viewCount}
+                        </Button>
+                    : null }
+                    {this.props.source === 'youtube'
+                    ?
+                        <Fragment>
+                            <Button className="mr-1" color="light">
+                                <FontAwesomeIcon icon="thumbs-up"/> {likes}
+                            </Button>
+                            <Button className="mr-1" color="light">
+                                <FontAwesomeIcon icon="thumbs-down"/> {dislikes}
+                            </Button>
+                        </Fragment>
+                    : null }
                     { (this.state.edit ? 
                         <LoaderButton
                             bsStyle="primary"

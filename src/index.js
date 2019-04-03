@@ -60,6 +60,7 @@ class App extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.closeMenu = this.closeMenu.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
 
@@ -75,8 +76,20 @@ class App extends Component {
     try {
       await Auth.currentSession();
       this.userHasAuthenticated(true);
-    }
-    catch(e) {
+
+      // Verify if the user has access to the admin resource
+      //TODO implement it with roles in the future 
+      try {
+        const userInfo = await Auth.currentUserInfo();
+        const { attributes } = userInfo;
+        console.log('EMAIL: ' + attributes.email);
+        if (attributes.email === 'ezgameplays2k19@gmail.com') {
+          this.setState({ adminAccess: true });
+        }
+      } catch (e) {
+        alert(e.message);
+      }
+    } catch(e) {
       if (e !== 'No current user') {
         alert(e);
       }
@@ -92,11 +105,17 @@ class App extends Component {
   handleLogout = async event => {
     await Auth.signOut();
     this.userHasAuthenticated(false);
+    this.closeMenu()
     navigate('/')
   }
 
   handleAdminButton = async event => {
+    this.closeMenu()
     navigate('/admin')
+  }
+
+  closeMenu() {
+    this.setState({ isOpen: false });
   }
 
   toggleMenu() {
@@ -114,56 +133,56 @@ class App extends Component {
   render() {
     return (
       !this.state.isAuthenticating &&
-        <div id="site-container">
-        <header>
-          <Navbar color="light" light expand="md">
-            <Link to="/">
-              <img src={Logo} className="logo" alt="Ez Share" />
-            </Link>
-            <NavbarToggler onClick={this.toggleMenu} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <Link to="/youtube-videos" className="nav-link">
-                    <FontAwesomeIcon icon={['fab', 'youtube']}/>&nbsp;
-                    YouTube Videos
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/exclusive-videos" className="nav-link">
-                    <FontAwesomeIcon icon="video"/>&nbsp;
-                    Exclusive Videos
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link to="/community-posts" className="nav-link">
-                    <FontAwesomeIcon icon="users"/>&nbsp;
-                    Community Posts
-                  </Link>
-                </NavItem>
-                {/* <NavItem>
-                  <Form inline>
-                    <Input type="search" className="mr-3" placeholder="Search" />
-                  </Form>
-                </NavItem>               */}
-                <NavItem>
-                  {this.state.isAuthenticated
-                      ? <Fragment>
-                          <Button color="primary" onClick={this.handleAdminButton}>Admin Area</Button> { " " }
-                          <Button color="secondary" outline onClick={this.handleLogout}>Logout</Button>
-                        </Fragment>
-                      : <LoginModal
-                          isAuthenticated={this.isAuthenticated}
-                          showSignupForm={this.showSignupForm}
-                          userHasAuthenticated={this.userHasAuthenticated}
-                          history={this.history}
-                        />
-                    }
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Navbar>
-        </header>
+      <Fragment>
+      <header className="bg-light">
+        <div className="headerContainer">
+        <Navbar color="light" light expand="md">
+          <Link to="/">
+            <img src={Logo} className="logo" alt="Ez Share" />
+          </Link>
+          <NavbarToggler onClick={this.toggleMenu} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+              <NavItem>
+                <Link to="/youtube-videos" className="nav-link" onClick={this.closeMenu}>
+                  <FontAwesomeIcon icon={['fab', 'youtube']}/>&nbsp;
+                  YouTube Videos
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link to="/exclusive-videos" className="nav-link" onClick={this.closeMenu}>
+                  <FontAwesomeIcon icon="video"/>&nbsp;
+                  Exclusive Videos
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link to="/community-posts" className="nav-link" onClick={this.closeMenu}>
+                  <FontAwesomeIcon icon="users"/>&nbsp;
+                  Community Posts
+                </Link>
+              </NavItem>
+              <NavItem>
+                {this.state.isAuthenticated
+                    ? <Fragment>
+                        {this.state.adminAccess ? <Button color="primary" onClick={this.handleAdminButton}>Admin Area</Button> : null }
+                        { " " }
+                        <Button color="secondary" outline onClick={this.handleLogout}>Logout</Button>
+                      </Fragment>
+                    : <LoginModal
+                        isAuthenticated={this.isAuthenticated}
+                        showSignupForm={this.showSignupForm}
+                        userHasAuthenticated={this.userHasAuthenticated}
+                        history={this.history}
+                      />
+                  }
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+        </div>
+      </header>
+
+      <div id="site-container">
 
         <div id="content-container">
           <PosedRouter>
@@ -210,6 +229,7 @@ class App extends Component {
           </div>
         </footer>
       </div>
+      </Fragment>
     );
   }
 

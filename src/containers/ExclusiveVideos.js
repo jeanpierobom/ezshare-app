@@ -77,7 +77,7 @@ export default class ExclusiveVideos extends Component {
                 thumbnail={item.pictures.sizes[5].link}
                 title={item.name}
                 content={item.description}
-                date='date here'
+                date={item.created_time}
                 source="exclusive"
                 renderLinks={true}
                 postId={item.uri.replace('/videos/', '')}

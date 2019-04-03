@@ -45,13 +45,14 @@ export default class CommunityPosts extends Component {
   }
 
   renderPost(post) {
+    console.log('post.createdAt: ' + new Date(post.createdAt));
     return (
       <P>
         <Post
           thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
           title={post.content}
           content={post.content}
-          date={post.createdAt}
+          date={new Date(post.createdAt)}
           viewCount={0}
           source="community"
         />

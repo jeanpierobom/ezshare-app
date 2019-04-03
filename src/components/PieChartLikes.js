@@ -49,7 +49,7 @@ class PieChartLikes extends React.Component {
           data={[["Feedback", "Count"], ["Likes", this.state.likes || 0], ["Dislikes", this.state.dislikes || 0]]}
           options={pieOptions}
           graph_id={'PieChart' + this.props.id}
-          // width={"400px"}
+          width={"300px"}
           legend_toggle
         />
       </div>

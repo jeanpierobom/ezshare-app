@@ -30,7 +30,7 @@ class PopoverChart extends React.Component {
         <Popover placement='bottom' trigger="focus" isOpen={this.state.popoverOpen} target={'Popover-' + this.props.id} toggle={this.toggle}>
           <PopoverHeader>Engagement</PopoverHeader>
           <PopoverBody>
-            <span>
+            <span style={{width: '400px'}}>
               <PieChartLikes id={this.props.id} likes={this.props.likes} dislikes={this.props.dislikes} />            
             </span>
           </PopoverBody>

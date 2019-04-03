@@ -10,6 +10,7 @@ header {
 
 .navbar {
   padding: 0;
+  z-index: 1100;
 }
 
 footer {
@@ -18,13 +19,14 @@ footer {
   left: 0;
   background-color: #01213D;
   color: white;
-  height: 50px;
+  min-height: 50px;
 }
 
 footer .nav {
   margin: 0;
   padding: 0;
   display: flex;
+  flex-direction: column;
 }
 
 footer .nav-item {
@@ -33,12 +35,30 @@ footer .nav-item {
 }
 
 footer .nav-item:last-child {
-  flex-grow: 1;
-  text-align: right;
+  flex-grow: 0;
+  text-align: left;
 }
 
 footer a {
   color: white;
+}
+
+@media (min-width: 768px) {
+
+  footer .nav {
+    flex-direction: row;
+  }
+
+  footer .nav-item:last-child {
+    flex-grow: 1;
+    text-align: right;
+  }
+
+}
+
+.headerContainer {
+  max-width: 1200px;
+  margin: auto;
 }
 
 .footerContainer {
@@ -265,3 +285,38 @@ img.logo-social {
 
 svg > g:last-child > g:last-child { pointer-events: none }
 div.google-visualization-tooltip { pointer-events: none }
+
+.chart-container {
+  text-align: center;
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .charts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cardCharts {
+  -webkit-column-count: 1;
+  -moz-column-count: 1;
+  column-count: 1;
+}
+
+@media (min-width: 1000px) {
+  .cardCharts {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-count: 3;
+  }
+}
+
+.btn-light:hover {
+  background-color: #f9f9f9;
+  border-color: none;
+}

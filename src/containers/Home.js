@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { API } from "aws-amplify";
 import Post from '../components/Post';
-import CommunityPost from '../components/CommunityPost';
 import YouTubeFacade from "../model/YouTubeFacade";
 import LogoYouTube from '../images/youtube.png'
 import LogoTwitch from '../images/twitch.png'
@@ -170,7 +169,7 @@ export default class Home extends Component {
           title={lastCommunityPost.content}
           content={lastCommunityPost.content}
           viewCount={lastCommunityPost.viewCount}
-          date={lastCommunityPost.createdAt}
+          date={new Date(lastCommunityPost.createdAt)}
           source="community"
           postLayout="vertical"
           postId={lastCommunityPost.postId}
@@ -182,7 +181,7 @@ export default class Home extends Component {
           title={lastExclusivePost.name}
           content={lastExclusivePost.description}
           viewCount={lastExclusivePost.viewCount}
-          date={lastExclusivePost.date}
+          date={lastExclusivePost.created_time}
           postLayout="vertical"
           renderLinks={true}
           postId={lastExclusivePost.uri.replace('/videos/', '')}
@@ -225,8 +224,15 @@ export default class Home extends Component {
   }
 
   renderVideoPost(videoPost) {
+    if (this.state.popularPost && this.state.popularPost.title === videoPost.title) {
+      return;
+    }
+
+    if (this.state.lastYoutubePost && this.state.lastYoutubePost.title === videoPost.title) {
+      return;
+    }
+
     return (
-      (!this.state.popularPost || (this.state.popularPost && this.state.popularPost.title !== videoPost.title)) && 
       <Post key={Math.random()}
         thumbnail={videoPost.thumbnail}
         title={videoPost.title}
@@ -253,7 +259,7 @@ export default class Home extends Component {
         viewCount={exclusivePost.viewCount}
         likes={exclusivePost.likes}
         dislikes={exclusivePost.dislikes}
-        date='date here'
+        date={new Date(exclusivePost.created_time)}
         postLayout="video"
       />
     )
@@ -266,14 +272,30 @@ export default class Home extends Component {
   }
 
   renderCommunityPost(communityPost) {
+    if (this.state.lastCommunityPost && this.state.lastCommunityPost.content === communityPost.content) {
+      return;
+    }
+
     return (      
-      <CommunityPost key={Math.random()}
+      // <CommunityPost key={Math.random()}
+      //   thumbnail={AwsConfig.s3.BUCKET_URL + communityPost.attachment}
+      //   title={communityPost.content}
+      //   content={communityPost.content}
+      //   date={communityPost.createdAt}
+      //   postLayout="vertical"
+      //   source="community"
+      //   renderLinks={true}
+      // />
+
+      <Post key={Math.random()}
         thumbnail={AwsConfig.s3.BUCKET_URL + communityPost.attachment}
         title={communityPost.content}
         content={communityPost.content}
-        date={communityPost.createdAt}
-        postLayout="vertical"
+        viewCount={communityPost.viewCount}
+        date={new Date(communityPost.createdAt)}
         source="community"
+        postLayout="vertical"
+        postId={communityPost.postId}
       />
     )
   }
@@ -317,7 +339,6 @@ export default class Home extends Component {
           <section className="old-posts-videos">
             <h3 className="section-title">Older Posts</h3>
             {!this.state.isLoadingYouTube && this.renderVideoPosts()}
-            {/* {!this.state.isLoadingExclusive && this.renderExclusivePosts()} */}
           </section>
 
           <section className="old-posts-community">

@@ -117,7 +117,7 @@ export default class Posts extends Component {
   
     try {
       await this.deletePost();
-      navigate("/");
+      navigate("/admin");
     } catch (e) {
       alert(e);
       this.setState({ isDeleting: false });
