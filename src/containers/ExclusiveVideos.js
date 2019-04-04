@@ -37,32 +37,16 @@ export default class ExclusiveVideos extends Component {
       if (error) {
         console.log(error);
       } else {
-        console.log('DATA: ' + JSON.stringify(body.data));
         const items = []
         body.data.forEach(item => {
-            items.push(item)
-            console.log('PLAYS: ' + item.stats.plays)
+          items.push(item)
+          console.log('PLAYS: ' + item.stats.plays)
           })
         this.setState({
-            data: items
+          data: items
         })
       }
     });
-
-    // vimeoClient.request({
-    //     path: '/videos/317165005',
-    //     query: {
-    //       // fields: 'uri,name,description,duration,created_time,modified_time,pictures'
-    //     }
-    //   }, (error, body, status_code, headers) => {
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     const items = []
-    //     console.log('DATA: ' + JSON.stringify(body.data));
-    //   }
-    // });
-
 
   }
   

@@ -11,6 +11,35 @@ import Config from '../components/Config'
 import PieChartLikes from '../components/PieChartLikes';
 import Post from '../components/Post';
 
+const pieOptions = {
+  title: "",
+  pieHole: 0.6,
+  slices: [
+    { color: "#2BB673" },
+    { color: "#d91e48" },
+    { color: "#007fad" },
+    { color: "#e9a227" }
+  ],
+  legend: {
+    position: "bottom",
+    alignment: "center",
+    textStyle: {
+      color: "233238",
+      fontSize: 14
+    }
+  },
+  tooltip: {
+    showColorCode: true
+  },
+  chartArea: {
+    left: 0,
+    top: 0,
+    width: "100%",
+    height: "80%"
+  },
+  fontName: "Roboto",
+};
+
 export default class Admin extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +54,8 @@ export default class Admin extends Component {
       communityPostsCount: 0,
       youtubePostsLength: 0,
       exclusivePostsLength: 0,
+      likesCount: 0,
+      dislikesCount: 0
     };
   }
 
@@ -55,6 +86,8 @@ export default class Admin extends Component {
       // Retrieve YouTube posts
       const youtubePosts = await YouTubeFacade.getPosts();
       const youtubePostsCount = youtubePosts ? youtubePosts.length : 0;
+      let likesCount = 0;
+      let dislikesCount = 0;
       let youtubePostsLength = 0;
       const calendarArray = []
       calendarArray.push([{ type: 'date', id: 'Date' }, { type: 'number', id: 'Posts' }])
@@ -63,8 +96,14 @@ export default class Admin extends Component {
         youtubePosts.forEach(youtubePost => {
           youtubePostsLength += youtubePost.lengthInMinutes;
           calendarArray.push([new Date(youtubePost.date), 1]);
+          //likesCount += youtubePost.likes;
+          likesCount += youtubePost.likes ? parseInt(youtubePost.likes) : 0;
+          //dislikesCount = dislikesCount + 10;
+          dislikesCount += youtubePost.dislikes ? parseInt(youtubePost.dislikes) : 0;
         })
       }
+
+      this.setState({ likesCount, dislikesCount });
 
       // Retrieve Exclusive posts
       const exclusivePosts = [];
@@ -91,7 +130,10 @@ export default class Admin extends Component {
   
       const communityPosts = await this.getCommunityPosts();
       const communityPostsCount = communityPosts ? communityPosts.length : 0;
-      this.setState({ youtubePosts, youtubePostsCount, youtubePostsLength, communityPosts, communityPostsCount });
+      await this.setState({ youtubePosts, youtubePostsCount, youtubePostsLength, communityPosts, communityPostsCount });
+
+      console.log('likesCount: ' + likesCount);
+      console.log('dislikesCount: ' + dislikesCount);
 
       // Iterate over community posts
       if (communityPosts) {
@@ -120,7 +162,7 @@ export default class Admin extends Component {
     return [{}].concat(posts).map(
       (post, i) =>
         i !== 0
-          ? <Fragment>
+          ? <Fragment key={Math.random()}>
               <Post
                 thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
                 title={post.content}
@@ -133,7 +175,7 @@ export default class Admin extends Component {
 
               />
             </Fragment>
-          : <div><Button color="primary" onClick={this.handleNewPost}>Create a New Post</Button><br/><br/></div>
+          : <div key={Math.random()}><Button color="primary" onClick={this.handleNewPost}>Create a New Post</Button><br/><br/></div>
     );
   }
 
@@ -208,11 +250,15 @@ export default class Admin extends Component {
                         <small>Amount of likes and dislikes in 2019</small>
                       </CardHeader>
                       <CardBody>
-                        <PieChartLikes
-                          id='youtube-admin-chart'
-                          likes={10}
-                          dislikes={20}
-                        /> 
+                        <Chart
+                          chartType="PieChart"
+                          data={[["Feedback", "Count"], ["Likes", this.state.likesCount || 0], ["Dislikes", this.state.dislikesCount || 0]]}
+                          options={pieOptions}
+                          graph_id={'youtube-admin-chart'}
+                          width={"300px"}
+                          legend_toggle
+                        />
+
                       </CardBody>
                     </Card>
 
