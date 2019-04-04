@@ -72,13 +72,13 @@ footer a {
 
 #site-container {
   background: white;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   max-width: 1200px;
   margin: auto;
 }
 
 #content-container {
-  min-height: calc(100vh - (60px));
+  min-height: calc(100vh - (60px + 80px));
 }
 
 img {
@@ -140,6 +140,7 @@ img.logo-social {
   grid-template-columns: 1fr;
   margin-bottom: 1rem;
   padding-top: 1rem;
+  min-height: 200px;
 }
 
 .last-posts .post {
@@ -161,6 +162,7 @@ img.logo-social {
 }
 
 .post-image {
+  float: left;
 }
 
 .post-body {
@@ -319,4 +321,8 @@ div.google-visualization-tooltip { pointer-events: none }
 .btn-light:hover {
   background-color: #f9f9f9;
   border-color: none;
+}
+
+.card-title {
+
 }

@@ -82,7 +82,6 @@ class App extends Component {
       try {
         const userInfo = await Auth.currentUserInfo();
         const { attributes } = userInfo;
-        console.log('EMAIL: ' + attributes.email);
         if (attributes.email === 'ezgameplays2k19@gmail.com') {
           this.setState({ adminAccess: true });
         }

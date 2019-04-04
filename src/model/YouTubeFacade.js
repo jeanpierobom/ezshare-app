@@ -38,10 +38,12 @@ class YouTubeFacade {
       let durationInMinutes = duration.asMinutes();
       lengthInMinutes += durationInMinutes;
 
+      const { thumbnails } = post.snippet;
+      let thumbnail = thumbnails.maxres ? thumbnails.maxres.url : (thumbnails.standard ? thumbnails.standard.url : thumbnails.high.url);
       const newPost = new YouTubePostItem(
         post.id,
         post.snippet.title,
-        post.snippet.thumbnails.maxres.url,
+        thumbnail,
         post.snippet.description,
         post.statistics.viewCount,
         post.statistics.likeCount,

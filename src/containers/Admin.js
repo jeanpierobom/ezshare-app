@@ -61,8 +61,6 @@ export default class Admin extends Component {
       calendarArray.push([new Date(2019, 11, 31), 0]);
       if (youtubePosts) {
         youtubePosts.forEach(youtubePost => {
-          //let date = new Date(youtubePost.date)
-          //console.log(new Date(date.getYear(), date.getMonth(), date.getDay()));
           youtubePostsLength += youtubePost.lengthInMinutes;
           calendarArray.push([new Date(youtubePost.date), 1]);
         })

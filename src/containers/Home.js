@@ -146,14 +146,15 @@ export default class Home extends Component {
   renderLastPosts() {
     // const post = this.state.popularPost;
     const { lastYoutubePost, lastCommunityPost, lastExclusivePost } = this.state;
-
+    const contentYoutube = lastYoutubePost.description.length > 120 ? lastYoutubePost.description.substr(0, 120) + '...' : lastYoutubePost.description;
     return (
       lastYoutubePost && lastCommunityPost && lastExclusivePost &&
       <Fragment>
+
         <Post key={Math.random()}
           thumbnail={lastYoutubePost.thumbnail}
           title={lastYoutubePost.title}
-          content={lastYoutubePost.description}
+          content={contentYoutube}
           viewCount={lastYoutubePost.viewCount}
           likes={lastYoutubePost.likes}
           dislikes={lastYoutubePost.dislikes}
@@ -180,7 +181,7 @@ export default class Home extends Component {
           thumbnail={lastExclusivePost.pictures.sizes[5].link}
           title={lastExclusivePost.name}
           content={lastExclusivePost.description}
-          viewCount={lastExclusivePost.viewCount}
+          viewCount={4}
           date={lastExclusivePost.created_time}
           postLayout="vertical"
           renderLinks={true}
@@ -194,12 +195,13 @@ export default class Home extends Component {
 
   renderPopularPost() {
     const post = this.state.popularPost;
+    const content = post.description.length > 260 ? post.description.substr(0, 260) + '...' : post.description;
     return (
       post && 
       <Post key={Math.random()}
         thumbnail={post.thumbnail}
         title={post.title}
-        content={post.description}
+        content={content}
         viewCount={post.viewCount}
         likes={post.likes}
         dislikes={post.dislikes}
@@ -232,11 +234,12 @@ export default class Home extends Component {
       return;
     }
 
+    const content = videoPost.description.length > 170 ? videoPost.description.substr(0, 170) + '...' : videoPost.description;
     return (
       <Post key={Math.random()}
         thumbnail={videoPost.thumbnail}
         title={videoPost.title}
-        content={videoPost.description}
+        content={content}
         viewCount={videoPost.viewCount}
         likes={videoPost.likes}
         dislikes={videoPost.dislikes}
@@ -276,17 +279,7 @@ export default class Home extends Component {
       return;
     }
 
-    return (      
-      // <CommunityPost key={Math.random()}
-      //   thumbnail={AwsConfig.s3.BUCKET_URL + communityPost.attachment}
-      //   title={communityPost.content}
-      //   content={communityPost.content}
-      //   date={communityPost.createdAt}
-      //   postLayout="vertical"
-      //   source="community"
-      //   renderLinks={true}
-      // />
-
+    return (
       <Post key={Math.random()}
         thumbnail={AwsConfig.s3.BUCKET_URL + communityPost.attachment}
         title={communityPost.content}
@@ -333,7 +326,7 @@ export default class Home extends Component {
         </section>
         <section className="last-posts">
           <h3 className="section-title">Latest Posts</h3>
-          {!this.state.isLoadingAll && this.renderLastPosts()}        
+          {!this.state.isLoadingAll && this.renderLastPosts()}
         </section>
         <section className="old-posts">
           <section className="old-posts-videos">

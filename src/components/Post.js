@@ -59,12 +59,13 @@ class Post extends Component {
         const { thumbnail, title, content, date, viewCount, likes, dislikes, postLayout, renderLinks, renderYoutubeVideo, renderExclusiveVideo } = this.state
         const renderVideo = renderYoutubeVideo || renderExclusiveVideo;
         var d = new Date(Date.parse(date));
+
         const dateAsString = DateUtil.age(d);
         return (
             <div className={`post post-${postLayout}`}>
                 <div className="post-image">
                     { renderVideo ? 
-                        <div class="videoWrapper">
+                        <div className="videoWrapper">
                             {renderYoutubeVideo ? <YouTube videoId={this.state.postId} onReady={this._onReady} /> : null }
                             {renderExclusiveVideo ? <Vimeo videoId={this.state.postId} autoplay={true} /> : null }
                         </div>

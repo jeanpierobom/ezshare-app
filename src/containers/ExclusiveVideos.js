@@ -72,14 +72,15 @@ export default class ExclusiveVideos extends Component {
         <h2>Exclusive Videos</h2>
         {this.state.data.map(
             (item, i) =>
-            <P>
-              <Post key={Math.random()}
+            <P key={Math.random()}>
+              <Post
                 thumbnail={item.pictures.sizes[5].link}
                 title={item.name}
                 content={item.description}
                 date={item.created_time}
                 source="exclusive"
                 renderLinks={true}
+                viewCount={4}
                 postId={item.uri.replace('/videos/', '')}
               />
             </P>

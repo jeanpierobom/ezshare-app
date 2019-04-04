@@ -25,7 +25,6 @@ export default class PostYouTube extends Component {
 
   async componentDidMount() {
     // Retrieve Exclusive posts
-    console.log('OI');
     const exclusivePosts = [];
     var Vimeo = require('vimeo').Vimeo;
     const vimeoClient = new Vimeo(Config.VIMEO_CLIENT_ID, Config.VIMEO_CLIENT_SECRET, Config.VIMEO_ACCESS_TOKEN);
@@ -56,10 +55,12 @@ export default class PostYouTube extends Component {
             thumbnail={currentPost.pictures.sizes[5].link}
             title={currentPost.name}
             content={currentPost.description}
-            date='date here'
+            viewCount={currentPost.viewCount}
+            date={currentPost.created_time}
             source="exclusive"
+            viewCount={4}
             postId={currentPost.uri.replace('/videos/', '')}
-            renderExclusiveVideo={true}
+            renderExclusiveVideo={true}  
           />
         </P>
       </div>

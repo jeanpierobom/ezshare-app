@@ -34,30 +34,23 @@ export default class CommunityPosts extends Component {
   }
   
   posts() {
-    console.log('Request Posts!')
     return API.get("community-posts", "/community-posts");
   }
 
   renderPostsList(posts) {
     return posts.map(
-      (post, i) => this.renderPost(post)
+      (post, i) => 
+        <P key={Math.random()}>
+          <Post
+            thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
+            title={post.content}
+            content={post.content}
+            date={new Date(post.createdAt)}
+            viewCount={0}
+            source="community"
+          />
+        </P>
     );
-  }
-
-  renderPost(post) {
-    console.log('post.createdAt: ' + new Date(post.createdAt));
-    return (
-      <P>
-        <Post
-          thumbnail={'https://s3.amazonaws.com/ezshare-posts-uploads/public/' + post.attachment}
-          title={post.content}
-          content={post.content}
-          date={new Date(post.createdAt)}
-          viewCount={0}
-          source="community"
-        />
-      </P>
-    )
   }
 
   render() {

@@ -32,8 +32,8 @@ export default class YouTubeVideos extends Component {
       <div>
           {this.state.posts.map(
               (post, i) =>
-              <P>
-                <Post key={Math.random()}
+              <P key={Math.random()}>
+                <Post
                   thumbnail={post.thumbnail}
                   title={post.title}
                   content={post.description}
