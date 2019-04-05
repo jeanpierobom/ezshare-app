@@ -22,8 +22,9 @@ class PopoverChart extends React.Component {
   }
 
   render() {
+    
     return (
-      <span>
+      <span className='popover-chart'>
         <Button className="mr-1" color="light" id={'Popover-' + this.props.id} type="button">
           <FontAwesomeIcon icon="chart-bar"/>
         </Button>

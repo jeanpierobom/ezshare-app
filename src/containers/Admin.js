@@ -132,9 +132,6 @@ export default class Admin extends Component {
       const communityPostsCount = communityPosts ? communityPosts.length : 0;
       await this.setState({ youtubePosts, youtubePostsCount, youtubePostsLength, communityPosts, communityPostsCount });
 
-      console.log('likesCount: ' + likesCount);
-      console.log('dislikesCount: ' + dislikesCount);
-
       // Iterate over community posts
       if (communityPosts) {
         communityPosts.forEach(communityPost => {

@@ -40,7 +40,6 @@ export default class ExclusiveVideos extends Component {
         const items = []
         body.data.forEach(item => {
           items.push(item)
-          console.log('PLAYS: ' + item.stats.plays)
           })
         this.setState({
           data: items

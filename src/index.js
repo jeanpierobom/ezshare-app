@@ -171,6 +171,7 @@ class App extends Component {
                         isAuthenticated={this.isAuthenticated}
                         showSignupForm={this.showSignupForm}
                         userHasAuthenticated={this.userHasAuthenticated}
+                        closeMenu={this.closeMenu}
                         history={this.history}
                       />
                   }

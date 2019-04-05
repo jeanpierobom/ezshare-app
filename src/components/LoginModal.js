@@ -40,6 +40,15 @@ export default class LoginModal extends React.Component {
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
+
+    // If the modal is open, close the menu
+    try {
+      if (!this.state.modal) {
+        this.props.closeMenu();
+      }
+    } catch (error) {
+      console.log('Problem to close the dialog')
+    }
   }
 
   validateFormLogin() {
