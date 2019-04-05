@@ -13,7 +13,7 @@ import Post from '../components/Post';
 
 const pieOptions = {
   title: "",
-  pieHole: 0.6,
+  pieHole: 0.4,
   slices: [
     { color: "#2BB673" },
     { color: "#d91e48" },

@@ -3,7 +3,7 @@ import Chart from "react-google-charts";
 
 const pieOptions = {
   title: "",
-  pieHole: 0.6,
+  pieHole: 0.4,
   slices: [
     { color: "#2BB673" },
     { color: "#d91e48" },
@@ -14,7 +14,7 @@ const pieOptions = {
     position: "bottom",
     alignment: "center",
     textStyle: {
-      color: "233238",
+      color: "000000",
       fontSize: 14
     }
   },
@@ -44,8 +44,6 @@ class PieChartLikes extends React.Component {
   render() {
     return (
       <div className="chart-container">
-        Likes Count: {this.state.likesCount}
-        Dislikes Count: {this.state.dislikesCount}
         <Chart
           chartType="PieChart"
           data={[["Feedback", "Count"], ["Likes", this.state.likes || 0], ["Dislikes", this.state.dislikes || 0]]}
